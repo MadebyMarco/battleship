@@ -11,3 +11,4 @@ function ship(length) {
   }
   return { length, numberOfHits, isSunk, hit };
 }
+module.exports = { ship };
