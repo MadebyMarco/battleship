@@ -1,4 +1,4 @@
-const Ship = require("./ship").ship;
+const Ship = require("./ship");
 
 let myShip = Ship(4);
 
