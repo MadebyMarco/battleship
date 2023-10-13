@@ -1,4 +1,4 @@
-function ship(length) {
+function Ship(length) {
   const numberOfHits = 0;
 
   function hit() {
@@ -11,4 +11,4 @@ function ship(length) {
   }
   return { length, numberOfHits, isSunk, hit };
 }
-module.exports = { ship };
+module.exports = { Ship };
