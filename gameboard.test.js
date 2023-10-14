@@ -11,6 +11,9 @@ test("check gameboard ships and coordinates are being added correctly", () => {
   expect(gameboard.shipCoordinates[0].length).toBe(ship.length);
 });
 
-test("test if hit is received", () => {
-  expect(gameboard.receiveAttack([1, 1])).toEqual(0);
+test("test receiveAttack hits and misses", () => {
+  gameboard.receiveAttack([1, 1]);
+  expect(gameboard.ships[0].numberOfHits).toEqual(1);
+  gameboard.receiveAttack([2, 2]);
+  expect({ coordinate: gameboard.misses[0] }).toEqual({ coordinate: [2, 2] });
 });
