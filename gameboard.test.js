@@ -17,3 +17,10 @@ test("test receiveAttack hits and misses", () => {
   gameboard.receiveAttack([2, 2]);
   expect({ coordinate: gameboard.misses[0] }).toEqual({ coordinate: [2, 2] });
 });
+
+test("test if all ships are sunk", () => {
+  expect(gameboard.areAllShipsSunk()).toBe(false);
+  gameboard.receiveAttack([1, 2]);
+  gameboard.receiveAttack([1, 3]);
+  expect(gameboard.areAllShipsSunk()).toBe(true);
+});
