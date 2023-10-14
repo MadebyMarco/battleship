@@ -10,3 +10,7 @@ test("check gameboard ships and coordinates are being added correctly", () => {
   expect(gameboard.ships[0].length).toBe(ship.length);
   expect(gameboard.shipCoordinates[0].length).toBe(ship.length);
 });
+
+test("test if hit is received", () => {
+  expect(gameboard.receiveAttack([1, 1])).toEqual(0);
+});
