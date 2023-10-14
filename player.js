@@ -11,7 +11,7 @@ function Player() {
 
   const moves = [];
 
-  function getRandomCoordinate(maxGridSize = 10) {
+  function getRandomMove(maxGridSize = 10) {
     const coordinate0 = Math.floor(Math.random() * maxGridSize);
     const coordinate1 = Math.floor(Math.random() * maxGridSize);
     return [coordinate0, coordinate1];
@@ -25,9 +25,18 @@ function Player() {
     return novelStatus;
   }
 
-  function getAttack() {}
+  function getAttack() {
+    let isNovel = false;
+    let maxTurns = 10;
+    while (!isNovel && maxTurns) {
+      const move = getRandomMove();
+      if (_isNovelMove(move)) return move;
+      maxTurns--;
+    }
+    return "No move in 10 tries";
+  }
 
-  return { turn, setTurn, moves, _isNovelMove };
+  return { turn, setTurn, moves, getAttack };
 }
 
 module.exports = Player;
