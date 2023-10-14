@@ -45,6 +45,18 @@ function Gameboard() {
     return false;
   }
   //reports whether all ships of one side have been sunk
-  return { ships, shipCoordinates, misses, placeShip, receiveAttack };
+  function areAllShipsSunk() {
+    const sunkShips = this.ships.filter((ship) => ship.isSunk() == true);
+    if (sunkShips.length == this.ships.length) return true;
+    return false;
+  }
+  return {
+    ships,
+    shipCoordinates,
+    misses,
+    placeShip,
+    receiveAttack,
+    areAllShipsSunk,
+  };
 }
 module.exports = Gameboard;
