@@ -1,3 +1,7 @@
+:root {
+  --grid-size: 10px;
+}
+
 body,
 html {
   height: 100%;
@@ -12,10 +16,6 @@ main {
   display: grid;
 }
 
-.header {
-  height: 250px;
-}
-
 .square {
   box-sizing: border-box;
   background-color: black;
@@ -26,4 +26,5 @@ main {
   display: grid;
   grid-template-columns: repeat(10, 10px);
   grid-template-rows: repeat(10, 10px);
+  justify-content: center;
 }
