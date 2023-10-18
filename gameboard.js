@@ -1,5 +1,6 @@
-// import { Ship } from "./ship"; cant use import with jest tests
-const Ship = require("./ship");
+import { Ship } from "./ship.js";
+// cant use import with jest tests
+// const Ship = require("./ship");
 function Gameboard() {
   // there will be two gameBoards. One for the player, one for the computer
   //tracks coordinates
@@ -59,4 +60,6 @@ function Gameboard() {
     areAllShipsSunk,
   };
 }
-module.exports = Gameboard;
+
+export { Gameboard };
+// module.exports = Gameboard; uncomment for tests

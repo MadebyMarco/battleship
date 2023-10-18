@@ -2,7 +2,7 @@
 //create property called turn to set to false or true
 //make a player not capable of making the same move twice
 // make an ai that can attack the other gameboard
-function Player() {
+export function Player() {
   let turn = false;
 
   function setTurn(boolean) {
@@ -39,4 +39,4 @@ function Player() {
   return { turn, setTurn, moves, getAttack };
 }
 
-module.exports = Player;
+// module.exports = Player; uncomment for tests

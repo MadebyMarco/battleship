@@ -1,4 +1,4 @@
-function Ship(length) {
+export function Ship(length) {
   const numberOfHits = 0;
 
   function hit() {
@@ -11,4 +11,4 @@ function Ship(length) {
   }
   return { length, numberOfHits, isSunk, hit };
 }
-module.exports = Ship;
+// module.exports = Ship; uncomment for tests
