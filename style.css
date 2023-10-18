@@ -1,0 +1,29 @@
+body,
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: grid;
+}
+
+.header {
+  height: 250px;
+}
+
+.square {
+  box-sizing: border-box;
+  background-color: black;
+  border: 1px solid aqua;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(10, 10px);
+  grid-template-rows: repeat(10, 10px);
+}
