@@ -1,5 +1,7 @@
 :root {
-  --grid-size: 10px;
+  --square-size: 40px;
+  --gameboard-rows: 10;
+  --gameboard-columns: 10;
 }
 
 body,
@@ -12,8 +14,14 @@ body {
   flex-direction: column;
 }
 
+.header {
+  text-align: center;
+}
+
 main {
   display: grid;
+  justify-content: center;
+  grid-template-columns: 50px min-content min-content 50px;
 }
 
 .square {
@@ -24,7 +32,7 @@ main {
 
 .gameboard {
   display: grid;
-  grid-template-columns: repeat(10, 10px);
-  grid-template-rows: repeat(10, 10px);
+  grid-template-columns: repeat(var(--gameboard-columns), var(--square-size));
+  grid-template-rows: repeat(var(--gameboard-rows), var(--square-size));
   justify-content: center;
 }
