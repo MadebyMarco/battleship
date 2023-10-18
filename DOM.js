@@ -14,12 +14,21 @@ function DOM() {
     return gameboardNodes;
   }
 
+  function gameboardSettings(element) {
+    element.classList.add("square");
+  }
+
   function receiveAttack(element, result) {
     if (result == "hit") element.classlist.add("hit");
     if (result == "miss") element.classlist.add("miss");
   }
 
-  return { createElements, createGameboard, receiveAttack };
-}
+  function initialize() {
+    const gameboard1 = document.querySelector("#player1.gameboard");
+    gameboard1.append(...createGameboard(gameboardSettings));
+    const gameboard2 = document.querySelector("#player1.gameboard");
+    gameboard2.append(...createGameboard(gameboardSettings));
+  }
 
-export { DOM };
+  return { createElements, createGameboard, receiveAttack, initialize };
+}
