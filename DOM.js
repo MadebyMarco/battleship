@@ -10,9 +10,16 @@ function DOM() {
   }
 
   function createGameboard(callbackFn) {
-    const gameboardNodes = DOM().createElements("div", 100, callbackFn);
+    const gameboardNodes = createElements("div", 100, callbackFn);
     return gameboardNodes;
   }
 
-  return { createElements, createGameboard };
+  function receiveAttack(element, result) {
+    if (result == "hit") element.classlist.add("hit");
+    if (result == "miss") element.classlist.add("miss");
+  }
+
+  return { createElements, createGameboard, receiveAttack };
 }
+
+export { DOM };
