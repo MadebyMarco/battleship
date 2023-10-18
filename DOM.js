@@ -1,7 +1,7 @@
 function DOM() {
-  function createElements(element, gridSize = 10, callbackFn) {
+  function createElements(element, quantity = 10, callbackFn) {
     const nodeArray = [];
-    for (let counter = 0; counter < gridSize; counter++) {
+    for (let counter = 0; counter < quantity; counter++) {
       const currentElement = document.createElement(element);
       if (callbackFn) callbackFn(currentElement);
       nodeArray.push(currentElement);
@@ -9,5 +9,10 @@ function DOM() {
     return nodeArray;
   }
 
-  return { createElements };
+  function createGameboard(callbackFn) {
+    const gameboardNodes = DOM().createElements("div", 100, callbackFn);
+    return gameboardNodes;
+  }
+
+  return { createElements, createGameboard };
 }
