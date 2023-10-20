@@ -23,7 +23,7 @@ export function Game() {
 
   player2.gameboard.placeShip([0, 1], [0, 2], [0, 3], [0, 4], [0, 5]);
   player2.gameboard.placeShip([5, 1], [5, 2], [5, 3], [5, 4]);
-  player2.gameboard.placeShip([3, 2], [4, 2], [5, 2]);
+  player2.gameboard.placeShip([2, 8], [3, 8], [4, 8]);
   player2.gameboard.placeShip([6, 5], [6, 4], [6, 3]);
   player2.gameboard.placeShip([8, 9], [8, 8]);
   player1.turn = true;
