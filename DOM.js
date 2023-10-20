@@ -53,7 +53,6 @@ function DOM() {
   function isVertical(coordinates) {
     const xAxis1 = parseInt(coordinates[0][0]);
     const xAxis2 = parseInt(coordinates[1][0]);
-    console.log(xAxis1, xAxis2);
     if (xAxis1 == xAxis2) return true;
     return false;
   }
@@ -84,18 +83,26 @@ function DOM() {
   }
 
   // render out ships
-  function renderShips(shipCoordinates, player) {
-    const shipElements = getShipElements(shipCoordinates, player);
-    placeShip(shipElements, true);
+  function renderShips(shipCoordinates1, shipCoordinates2) {
+    shipCoordinates1.forEach((coordinate) => {
+      placeShip(getShipElements(coordinate, "player1"));
+    });
+    shipCoordinates2.forEach((coordinate) => {
+      placeShip(getShipElements(coordinate, "player2"));
+    });
     //apply placeSHip func to each set of coordinates
   }
 
   function initialize() {
+    const game = Game();
     const gameboard1 = document.querySelector("#player1.gameboard");
     gameboard1.append(...createGameboard(gameboardSettings));
     const gameboard2 = document.querySelector("#player2.gameboard");
     gameboard2.append(...createGameboard(gameboardSettings));
-    renderShips(Game().player1.gameboard.shipCoordinates[0], "player1");
+    renderShips(
+      game.player1.gameboard.shipCoordinates,
+      game.player2.gameboard.shipCoordinates
+    );
   }
 
   return { receiveAttack, initialize, placeShip };
