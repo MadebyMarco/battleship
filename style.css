@@ -2,6 +2,9 @@
   --square-size: 40px;
   --gameboard-rows: 10;
   --gameboard-columns: 10;
+  --dark-green: #5efc13
+  --deep-purple: #050d3e
+  --dark-purple: #320e8c
 }
 
 * {
@@ -28,6 +31,31 @@ main {
   justify-content: center;
   grid-template-columns: min-content min-content;
   column-gap: 15px;
+}
+.bow.vertical.square {
+  border-top: 2px solid orange;
+}
+
+.stern.vertical.square {
+  border-bottom: 2px solid orange;
+}
+.bow.horizontal.square {
+  border-right: 2px solid orange;
+}
+
+.stern.horizontal.square {
+  border-left: 2px solid orange;
+}
+
+.vertical.square {
+  border: none;
+  border-left: 2px solid orange;
+  border-right: 2px solid orange;
+}
+
+.horizontal.square {
+  border-top: 2px solid orange;
+  border-bottom: 2px solid orange;
 }
 
 .square {
