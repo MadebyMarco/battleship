@@ -41,9 +41,8 @@ function DOM() {
   }
   // stern: back of boat
   // bow: front of boat
-  function placeShip(elements, isVertical = false) {
-    let orientation = "horizontal";
-    if (isVertical) orientation = "vertical";
+  function placeShip(elements) {
+    let orientation = getOrientation(elements);
     for (let index = 0; index < elements.length; index++) {
       if (index == 0) elements[index].classList.add("stern");
       if (index == elements.length - 1) elements[index].classList.add("bow");
@@ -51,6 +50,27 @@ function DOM() {
       elements[index].classList.add("ship");
     }
   }
+  function isVertical(coordinates) {
+    const xAxis1 = parseInt(coordinates[0][0]);
+    const xAxis2 = parseInt(coordinates[1][0]);
+    console.log(xAxis1, xAxis2);
+    if (xAxis1 == xAxis2) return true;
+    return false;
+  }
+
+  function getOrientation(elements) {
+    let orientation = "horizontal";
+    if (
+      isVertical([
+        elements[0].dataset.coordinate,
+        elements[1].dataset.coordinate,
+      ])
+    ) {
+      orientation = "vertical";
+    }
+    return orientation;
+  }
+
   function getShipElements(coordinates, player) {
     const shipElements = [];
     for (let index = 0; index < coordinates.length; index++) {
