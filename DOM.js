@@ -1,3 +1,5 @@
+import { Game } from "./game.js";
+
 function DOM() {
   function createElements(element, quantity = 10, callbackFn) {
     const nodeArray = [];
@@ -11,7 +13,22 @@ function DOM() {
 
   function createGameboard(callbackFn) {
     const gameboardNodes = createElements("div", 100, callbackFn);
-    return gameboardNodes;
+    const coordinateNodes = setCoordinates(gameboardNodes);
+    return coordinateNodes;
+  }
+  function setCoordinates(nodes, maxYAxis = 9) {
+    let xAxis = 0;
+    let yAxis = maxYAxis;
+    const coordinateNodes = [...nodes];
+    coordinateNodes.forEach((node) => {
+      if (xAxis > maxYAxis) {
+        xAxis = 0;
+        yAxis = yAxis - 1;
+      }
+      node.dataset.coordinate = [xAxis, yAxis];
+      xAxis++;
+    });
+    return coordinateNodes;
   }
 
   function gameboardSettings(element) {
@@ -35,6 +52,12 @@ function DOM() {
     }
   }
 
+  // render out ships
+  function renderShips(shipCoordinates) {
+    //apply placeSHip func to each set of coordinates
+    //first need to add coordinates to the gameboard
+  }
+
   function initialize() {
     const gameboard1 = document.querySelector("#player1.gameboard");
     gameboard1.append(...createGameboard(gameboardSettings));
@@ -46,3 +69,4 @@ function DOM() {
 }
 
 DOM().initialize();
+console.log(Game().player1);
