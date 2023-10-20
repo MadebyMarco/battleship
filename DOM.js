@@ -41,7 +41,7 @@ function DOM() {
   }
   // stern: back of boat
   // bow: front of boat
-  function placeShip(isVertical, ...elements) {
+  function placeShip(elements, isVertical = false) {
     let orientation = "horizontal";
     if (isVertical) orientation = "vertical";
     for (let index = 0; index < elements.length; index++) {
@@ -51,11 +51,23 @@ function DOM() {
       elements[index].classList.add("ship");
     }
   }
+  function getShipElements(coordinates, player) {
+    const shipElements = [];
+    for (let index = 0; index < coordinates.length; index++) {
+      const currentCoordinate = coordinates[index];
+      const currentShipElement = document.querySelector(
+        `#${player} div[data-coordinate='${currentCoordinate}']`
+      );
+      shipElements.push(currentShipElement);
+    }
+    return shipElements;
+  }
 
   // render out ships
-  function renderShips(shipCoordinates) {
+  function renderShips(shipCoordinates, player) {
+    const shipElements = getShipElements(shipCoordinates, player);
+    placeShip(shipElements, true);
     //apply placeSHip func to each set of coordinates
-    //first need to add coordinates to the gameboard
   }
 
   function initialize() {
@@ -63,10 +75,10 @@ function DOM() {
     gameboard1.append(...createGameboard(gameboardSettings));
     const gameboard2 = document.querySelector("#player2.gameboard");
     gameboard2.append(...createGameboard(gameboardSettings));
+    renderShips(Game().player1.gameboard.shipCoordinates[0], "player1");
   }
 
   return { receiveAttack, initialize, placeShip };
 }
 
 DOM().initialize();
-console.log(Game().player1);
