@@ -4,6 +4,10 @@
   --gameboard-columns: 10;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body,
 html {
   height: 100%;
@@ -12,6 +16,7 @@ html {
 body {
   display: flex;
   flex-direction: column;
+  background-color: #3c89d9;
 }
 
 .header {
@@ -21,13 +26,17 @@ body {
 main {
   display: grid;
   justify-content: center;
-  grid-template-columns: 50px min-content min-content 50px;
+  grid-template-columns: min-content min-content;
+  column-gap: 15px;
 }
 
 .square {
-  box-sizing: border-box;
   background-color: black;
-  border: 1px solid aqua;
+  border: 2px solid #5efc13;
+}
+
+#player2 .square {
+  border-color: #fe65fd;
 }
 
 .gameboard {
