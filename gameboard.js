@@ -10,9 +10,28 @@ function Gameboard() {
   //can place ships on the board at specific coordinates
   function placeShip(...coordinates) {
     const ship = Ship(coordinates.length);
-
+    const sortedCoordinates = sortCoordinates(coordinates);
     this.ships.push(ship);
-    this.shipCoordinates.push(coordinates);
+    this.shipCoordinates.push(sortedCoordinates);
+  }
+
+  function sortCoordinates(coordinates) {
+    const sortedCoordinates = [...coordinates];
+    const firstCoordinate = sortedCoordinates[0];
+    const lastCoordinate = sortedCoordinates[sortedCoordinates.length - 1];
+    if (
+      firstCoordinate[0] != lastCoordinate[0] &&
+      firstCoordinate[0] > lastCoordinate[0]
+    ) {
+      sortedCoordinates.reverse();
+    }
+    if (
+      firstCoordinate[1] != lastCoordinate[1] &&
+      firstCoordinate[1] > lastCoordinate[1]
+    ) {
+      sortedCoordinates.reverse();
+    }
+    return sortedCoordinates;
   }
   //determines which attacks are hits and misses, then sends the hit to the right ship or records the miss
   function receiveAttack(coordinate) {
