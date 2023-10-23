@@ -32,6 +32,7 @@ main {
   grid-template-columns: min-content min-content;
   column-gap: 15px;
 }
+
 .bow.vertical.square {
   border-top: 2px solid orange;
 }
@@ -54,6 +55,7 @@ main {
 }
 
 .horizontal.square {
+  border: none;
   border-top: 2px solid orange;
   border-bottom: 2px solid orange;
 }
@@ -63,9 +65,6 @@ main {
   border: 2px solid #5efc13;
 }
 
-#player2 .square {
-  border-color: #fe65fd;
-}
 
 .gameboard {
   display: grid;
