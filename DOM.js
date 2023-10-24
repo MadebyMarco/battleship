@@ -37,8 +37,8 @@ export function DOM() {
   }
 
   function receiveAttack(element, result) {
-    if (result == "hit") element.classlist.add("hit");
-    if (result == "miss") element.classlist.add("miss");
+    if (result == "hit") element.classList.add("hit");
+    if (result == "miss") element.classList.add("miss");
   }
   // stern: back of boat
   // bow: front of boat
