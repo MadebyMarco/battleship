@@ -38,9 +38,10 @@ function Gameboard() {
     const index = isHit(this.shipCoordinates, coordinate);
     if (index === false) {
       this.misses.push(coordinate);
-      return;
+      return "miss";
     }
     this.ships[index].hit();
+    return "hit";
   }
 
   function isHit(shipCoordinates, coordinate) {
