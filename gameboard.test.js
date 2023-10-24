@@ -1,5 +1,5 @@
-const Gameboard = require("./gameboard");
-const Ship = require("./ship");
+import { Gameboard } from "./gameboard.js";
+import { Ship } from "./ship.js";
 const gameboard = Gameboard();
 const ship = Ship(3);
 test("check gameboard ships and coordinates are being added correctly", () => {

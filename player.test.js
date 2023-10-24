@@ -1,4 +1,4 @@
-const Player = require("./player");
+import { Player } from "./player";
 const player = Player();
 player.moves.push([1, 1]);
 
