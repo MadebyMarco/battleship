@@ -17,12 +17,11 @@ export function Player() {
     return [coordinate0, coordinate1];
   }
 
-  function _isNovelMove(move) {
-    let novelStatus = true;
-    moves.map((oldMove) => {
-      if (oldMove[0] == move[0] && oldMove[1] == move[1]) novelStatus = false;
+  function isNovelMove(move) {
+    this.moves.map((oldMove) => {
+      if (oldMove[0] == move[0] && oldMove[1] == move[1]) return false;
     });
-    return novelStatus;
+    return true;
   }
 
   function getAttack() {
@@ -30,13 +29,13 @@ export function Player() {
     let maxTurns = 10;
     while (!isNovel && maxTurns) {
       const move = getRandomMove();
-      if (_isNovelMove(move)) return move;
+      if (isNovelMove(move)) return move;
       maxTurns--;
     }
     return "No move in 10 tries";
   }
 
-  return { turn, setTurn, moves, getAttack };
+  return { turn, setTurn, moves, getAttack, isNovelMove };
 }
 
 // module.exports = Player; uncomment for tests
