@@ -1,6 +1,6 @@
 import { Game } from "./game.js";
 
-function DOM() {
+export function DOM() {
   function createElements(element, quantity = 10, callbackFn) {
     const nodeArray = [];
     for (let counter = 0; counter < quantity; counter++) {
@@ -16,6 +16,7 @@ function DOM() {
     const coordinateNodes = setCoordinates(gameboardNodes);
     return coordinateNodes;
   }
+
   function setCoordinates(nodes, maxYAxis = 9) {
     let xAxis = 0;
     let yAxis = maxYAxis;
@@ -50,6 +51,7 @@ function DOM() {
       elements[index].classList.add("ship");
     }
   }
+
   function isVertical(coordinates) {
     const xAxis1 = parseInt(coordinates[0][0]);
     const xAxis2 = parseInt(coordinates[1][0]);
@@ -93,19 +95,13 @@ function DOM() {
     //apply placeSHip func to each set of coordinates
   }
 
-  function initialize() {
-    const game = Game();
+  function initialize(player1Ships, player2Ships) {
     const gameboard1 = document.querySelector("#player1.gameboard");
     gameboard1.append(...createGameboard(gameboardSettings));
     const gameboard2 = document.querySelector("#player2.gameboard");
     gameboard2.append(...createGameboard(gameboardSettings));
-    renderShips(
-      game.player1.gameboard.shipCoordinates,
-      game.player2.gameboard.shipCoordinates
-    );
+    renderShips(player1Ships, player2Ships);
   }
 
   return { receiveAttack, initialize, placeShip };
 }
-
-DOM().initialize();
