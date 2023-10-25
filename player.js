@@ -6,7 +6,7 @@ export function Player() {
   let turn = false;
 
   function setTurn(boolean) {
-    this.turn = boolean;
+    turn = boolean;
   }
 
   const moves = [];
@@ -18,10 +18,11 @@ export function Player() {
   }
 
   function isNovelMove(move) {
-    this.moves.map((oldMove) => {
-      if (oldMove[0] == move[0] && oldMove[1] == move[1]) return false;
+    let novel = true;
+    moves.map((oldMove) => {
+      if (oldMove[0] == move[0] && oldMove[1] == move[1]) novel = false;
     });
-    return true;
+    return novel;
   }
 
   function getAttack() {
