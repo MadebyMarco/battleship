@@ -28,35 +28,32 @@ export function Game() {
   player2.gameboard.placeShip([8, 9], [8, 8]);
   player1.turn = true;
 
-  function start() {
-    while (!isOver()) {
-      if (player1.turn == true) {
-        //1st player attacks
-        //get player move
-        //verify move
-        //push move player1.moves.push(moves)
-        //2nd player gameboard receives attack
-        //player2.gameboard.receiveAttack(move);
-        player1.turn = false;
-        player2.turn = true;
-        if (isOver()) return "player 1 wins";
+  function loop(player1, player2, coordinate) {
+    const round = {};
+    if (player1.turn) {
+      player1.moves.push(coordinate);
+      round.result = player2.gameboard.receiveAttack(coordinate);
+      if (round.result === "hit") {
+        round.player1turn = true;
+        round.player2turn = false;
+        return round;
       }
-      if (player2.turn == true) {
-        //2st player attacks
-        //get player move
-        //verify move
-        //push move player2.moves.push(moves)
-        //1nd player gameboard receives attack
-        //player1.gameboard.receiveAttack(move);
-        player2.turn = false;
-        player1.turn = true;
-        if (isOver()) return "player 2 wins";
-      }
+      round.player1turn = false;
+      round.player2turn = true;
+      return round;
     }
-
-    //2nd player attacks
-    //1st player gameboard receives attack
-    //check if game is over
+    if (player2.turn) {
+      player2.moves.push(coordinate);
+      round.result = player1.gameboard.receiveAttack(coordinate);
+      if (round.result === "hit") {
+        round.player2turn = true;
+        round.player1turn = false;
+        return round;
+      }
+      round.player2turn = false;
+      round.player1turn = true;
+      return round;
+    }
   }
 
   function isOver() {
@@ -69,5 +66,5 @@ export function Game() {
     return false;
   }
 
-  return { start, player1, player2 };
+  return { loop, player1, player2 };
 }
