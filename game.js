@@ -31,8 +31,13 @@ export function Game() {
   function loop(player1, player2, coordinate) {
     const round = {};
     if (player1.turn) {
+      if (!player1.isNovelMove(coordinate)) return;
       player1.moves.push(coordinate);
       round.result = player2.gameboard.receiveAttack(coordinate);
+      if (isOver(player1, player2)) {
+        round.result = "hit";
+        round.winner = "player1";
+      }
       if (round.result === "hit") {
         round.player1turn = true;
         round.player2turn = false;
@@ -43,8 +48,14 @@ export function Game() {
       return round;
     }
     if (player2.turn) {
+      if (!player2.isNovelMove(coordinate)) return;
       player2.moves.push(coordinate);
       round.result = player1.gameboard.receiveAttack(coordinate);
+      if (isOver(player1, player2)) {
+        round.result = "hit";
+        round.winner = "player2";
+        return round;
+      }
       if (round.result === "hit") {
         round.player2turn = true;
         round.player1turn = false;
@@ -56,7 +67,7 @@ export function Game() {
     }
   }
 
-  function isOver() {
+  function isOver(player1, player2) {
     if (
       player1.gameboard.areAllShipsSunk() ||
       player2.gameboard.areAllShipsSunk()
