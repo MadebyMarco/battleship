@@ -65,6 +65,14 @@ main {
   border: 2px solid #5efc13;
 }
 
+.hit {
+ background-color: red;
+}
+
+.miss{
+ background-color: gray;
+  
+}
 
 .gameboard {
   display: grid;
