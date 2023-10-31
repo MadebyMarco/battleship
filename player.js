@@ -5,10 +5,6 @@
 export function Player() {
   let turn = false;
 
-  function setTurn(boolean) {
-    turn = boolean;
-  }
-
   const moves = [];
 
   function getRandomMove(maxGridSize = 10) {
@@ -36,7 +32,7 @@ export function Player() {
     return "No move in 10 tries";
   }
 
-  return { turn, setTurn, moves, getAttack, isNovelMove };
+  return { turn, moves, getAttack, isNovelMove };
 }
 
 // module.exports = Player; uncomment for tests
