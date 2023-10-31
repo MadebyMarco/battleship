@@ -85,12 +85,9 @@ export function DOM() {
   }
 
   // render out ships
-  function renderShips(shipCoordinates1, shipCoordinates2) {
-    shipCoordinates1.forEach((coordinate) => {
-      placeShip(getShipElements(coordinate, "player1"));
-    });
-    shipCoordinates2.forEach((coordinate) => {
-      placeShip(getShipElements(coordinate, "player2"));
+  function renderShips(shipCoordinates, player) {
+    shipCoordinates.forEach((coordinate) => {
+      placeShip(getShipElements(coordinate, player));
     });
     //apply placeSHip func to each set of coordinates
   }
@@ -100,7 +97,7 @@ export function DOM() {
     gameboard1.append(...createGameboard(gameboardSettings));
     const gameboard2 = document.querySelector("#player2.gameboard");
     gameboard2.append(...createGameboard(gameboardSettings));
-    renderShips(player1Ships, player2Ships);
+    renderShips(player1Ships, "player1");
   }
 
   return { receiveAttack, initialize, placeShip };
