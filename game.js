@@ -67,6 +67,34 @@ export function Game() {
     }
   }
 
+  function loopAgainstComputer(player1, player2, coordinate) {
+    const round = { player1turn: true, player2turn: false };
+    if (player1.turn) {
+      if (!player1.isNovelMove(coordinate)) return "please enter a new move";
+      player1.moves.push(coordinate);
+      round.player1result = player2.gameboard.receiveAttack(coordinate);
+
+      if (isOver(player1, player2)) round.winner = "player1";
+      if (round.player1result === "hit") return round;
+      player1.turn = false;
+      player2.turn = true;
+    }
+    if (player2.turn) {
+      const player2Coordinate = player2.getAttack();
+      player2.moves.push(player2Coordinate);
+      round.player2result = player1.gameboard.receiveAttack(player2Coordinate);
+
+      if (isOver(player1, player2)) round.winner = "player2";
+      if (round.player2result === "hit") {
+        round.player1turn = false;
+        round.player2turn = true;
+      }
+      round.player1turn = true;
+      round.player2turn = false;
+    }
+    return round;
+  }
+
   function isOver(player1, player2) {
     if (
       player1.gameboard.areAllShipsSunk() ||
@@ -77,5 +105,5 @@ export function Game() {
     return false;
   }
 
-  return { loop, player1, player2 };
+  return { loop, loopAgainstComputer, player1, player2 };
 }
