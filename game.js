@@ -88,6 +88,7 @@ export function Game() {
       if (round.player2result === "hit") {
         round.player1turn = false;
         round.player2turn = true;
+        return round;
       }
       round.player1turn = true;
       round.player2turn = false;
