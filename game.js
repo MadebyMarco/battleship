@@ -31,7 +31,7 @@ export function Game() {
   function loop(player1, player2, coordinate) {
     const round = {};
     if (player1.turn) {
-      if (!player1.isNovelMove(coordinate)) return;
+      if (!player1.isNovelMove(coordinate)) return "please enter a new move";
       player1.moves.push(coordinate);
       round.result = player2.gameboard.receiveAttack(coordinate);
       if (isOver(player1, player2)) {
@@ -48,7 +48,7 @@ export function Game() {
       return round;
     }
     if (player2.turn) {
-      if (!player2.isNovelMove(coordinate)) return;
+      if (!player2.isNovelMove(coordinate)) return "please enter a new move";
       player2.moves.push(coordinate);
       round.result = player1.gameboard.receiveAttack(coordinate);
       if (isOver(player1, player2)) {
