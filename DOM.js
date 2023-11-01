@@ -90,23 +90,22 @@ export function DOM() {
     //apply placeSHip func to each set of coordinates
   }
 
-  function renderMisses(misses = [], player = "player1") {
-    for (let index = 0; index < misses.length; index++) {
-      const currentMiss = misses[index];
+  function renderResults(coordinates = [], className, player = "player1") {
+    for (let index = 0; index < coordinates.length; index++) {
+      const currentCoordinate = coordinates[index];
       const square = document.querySelector(
-        `#${player} div[data-coordinate='${currentMiss}']`
+        `#${player} div[data-coordinate='${currentCoordinate}']`
       );
-      if (!square.classList.contains("miss")) square.classList.add("miss");
+      if (!square.classList.contains(`${className}`))
+        square.classList.add(`${className}`);
     }
   }
 
-  function renderHits(hits = [], player) {
-    for (let index = 0; index < hits.length; index++) {
-      const currentHit = hits[index];
-      const square = document.querySelector(
-        `#${player} div[data-coordinate='${currentHit}']`
-      );
-      if (!square.classList.contains("hit")) square.classList.add("hit");
+  function clearResults(className, player) {
+    const elements = document.querySelectorAll(`#${player} ${className}`);
+    for (let index = 0; index < elements.length; index++) {
+      const currentElement = elements[index];
+      currentElement.classList.remove(`${className}`);
     }
   }
 
