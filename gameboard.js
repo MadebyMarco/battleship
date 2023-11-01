@@ -7,6 +7,7 @@ function Gameboard() {
   const ships = [];
   const shipCoordinates = [];
   const misses = [];
+  const hits = [];
   //can place ships on the board at specific coordinates
   function placeShip(...coordinates) {
     const ship = Ship(coordinates.length);
@@ -40,6 +41,7 @@ function Gameboard() {
       this.misses.push(coordinate);
       return "miss";
     }
+    this.hits.push(coordinate);
     this.ships[index].hit();
     return "hit";
   }
