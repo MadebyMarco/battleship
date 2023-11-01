@@ -1,5 +1,3 @@
-import { Game } from "./game.js";
-
 export function DOM() {
   function createElements(element, quantity = 10, callbackFn) {
     const nodeArray = [];
@@ -92,7 +90,27 @@ export function DOM() {
     //apply placeSHip func to each set of coordinates
   }
 
-  function initialize(player1Ships, player2Ships) {
+  function renderMisses(misses = [], player = "player1") {
+    for (let index = 0; index < misses.length; index++) {
+      const currentMiss = misses[index];
+      const square = document.querySelector(
+        `#${player} div[data-coordinate='${currentMiss}']`
+      );
+      if (!square.classList.contains("miss")) square.classList.add("miss");
+    }
+  }
+
+  function renderHits(hits = [], player) {
+    for (let index = 0; index < hits.length; index++) {
+      const currentHit = hits[index];
+      const square = document.querySelector(
+        `#${player} div[data-coordinate='${currentHit}']`
+      );
+      if (!square.classList.contains("hit")) square.classList.add("hit");
+    }
+  }
+
+  function initialize(player1Ships) {
     const gameboard1 = document.querySelector("#player1.gameboard");
     gameboard1.append(...createGameboard(gameboardSettings));
     const gameboard2 = document.querySelector("#player2.gameboard");
