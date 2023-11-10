@@ -77,6 +77,7 @@ function Gameboard() {
     ships,
     shipCoordinates,
     misses,
+    hits,
     placeShip,
     isHit,
     receiveAttack,
