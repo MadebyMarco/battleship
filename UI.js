@@ -39,11 +39,9 @@ export function UI(player1, player2) {
     dom.receiveAttack(event.target, round.result);
   }
 
-  function vsComputer(event, player2turn = false) {
-    if (!player2turn) {
-      if (!eventValidity(event)) return;
-      console.log("event valid");
-    }
+  function vsComputer(event) {
+    if (!eventValidity(event)) return;
+    console.log("event valid");
 
     const coordinate = getCoordinate(event);
     if (!coordinate) return;
@@ -53,16 +51,11 @@ export function UI(player1, player2) {
 
     dom.renderResultsOfAttack(player2.gameboard.hits, "hit", "player2");
     dom.renderResultsOfAttack(player2.gameboard.misses, "miss", "player2");
-    // replace with clearResults, renderResults
 
     setTimeout(() => {
       dom.renderResultsOfAttack(player1.gameboard.hits, "hit", "player1");
       dom.renderResultsOfAttack(player1.gameboard.misses, "miss", "player1");
     }, 1000);
-
-    player1.turn = round.player1turn;
-    player2.turn = round.player2turn;
-    if (round.player2turn) setTimeout(() => vsComputer(event, true), 1500);
   }
 
   function roundValidity(round) {
