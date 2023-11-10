@@ -48,15 +48,18 @@ export function UI(player1, player2) {
     const coordinate = getCoordinate(event);
     if (!coordinate) return;
     console.log("coordinate valid");
+
     const round = game.loopAgainstComputer(player1, player2, coordinate);
-    dom.receiveAttack(event.target, round.player1result);
-    const player2coordinate = player2.moves[player2.moves.length - 1];
-    const player1Square = document.querySelector(
-      `#player1 div[data-coordinate='${player2coordinate}']`
-    );
+
+    dom.renderResultsOfAttack(player2.gameboard.hits, "hit", "player2");
+    dom.renderResultsOfAttack(player2.gameboard.misses, "miss", "player2");
+    // replace with clearResults, renderResults
+
     setTimeout(() => {
-      dom.receiveAttack(player1Square, round.player2result);
+      dom.renderResultsOfAttack(player1.gameboard.hits, "hit", "player1");
+      dom.renderResultsOfAttack(player1.gameboard.misses, "miss", "player1");
     }, 1000);
+
     player1.turn = round.player1turn;
     player2.turn = round.player2turn;
     if (round.player2turn) setTimeout(() => vsComputer(event, true), 1500);
