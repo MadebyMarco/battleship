@@ -18,7 +18,8 @@ function Gameboard() {
 
   function getShip(coordinate) {
     const shipIndex = getShipIndex(this.shipCoordinates, coordinate);
-    return this.ships[shipIndex];
+    const ship = this.ships[shipIndex];
+    return ship;
   }
 
   function sortCoordinates(coordinates) {

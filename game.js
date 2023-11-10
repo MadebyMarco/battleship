@@ -73,7 +73,9 @@ export function Game() {
     if (!player1.isNovelMove(coordinate)) return "please enter a new move";
     player1.moves.push(coordinate);
     round.player1result = player2.gameboard.receiveAttack(coordinate);
-    round.player1SunkShip = player2.gameboard.getShip(coordinate).isSunk();
+    if (round.player1result === "hit")
+      round.player1SunkShip = player2.gameboard.getShip(coordinate).isSunk();
+
     if (isOver(player1, player2)) {
       round.winner = "player1";
       return round;
@@ -82,7 +84,10 @@ export function Game() {
     const player2Coordinate = player2.getAttack();
     player2.moves.push(player2Coordinate);
     round.player2result = player1.gameboard.receiveAttack(player2Coordinate);
-    round.player2SunkShip = player1.gameboard.getShip(coordinate).isSunk();
+    if (round.player2result === "hit")
+      round.player2SunkShip = player1.gameboard
+        .getShip(player2Coordinate)
+        .isSunk();
     if (isOver(player1, player2)) round.winner = "player2";
     return round;
   }
