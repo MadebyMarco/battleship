@@ -16,7 +16,13 @@ function Gameboard() {
     this.shipCoordinates.push(sortedCoordinates);
   }
 
+  function getShip(coordinate) {
+    const shipIndex = getShipIndex(this.shipCoordinates, coordinate);
+    return this.ships[shipIndex];
+  }
+
   function sortCoordinates(coordinates) {
+    // sets coordinates in ascending order
     const sortedCoordinates = [...coordinates];
     const firstCoordinate = sortedCoordinates[0];
     const lastCoordinate = sortedCoordinates[sortedCoordinates.length - 1];
@@ -36,7 +42,7 @@ function Gameboard() {
   }
   //determines which attacks are hits and misses, then sends the hit to the right ship or records the miss
   function receiveAttack(coordinate) {
-    const index = isHit(this.shipCoordinates, coordinate);
+    const index = getShipIndex(this.shipCoordinates, coordinate);
     if (index === false) {
       this.misses.push(coordinate);
       return "miss";
@@ -46,7 +52,7 @@ function Gameboard() {
     return "hit";
   }
 
-  function isHit(shipCoordinates, coordinate) {
+  function getShipIndex(shipCoordinates, coordinate) {
     for (let shipIndex = 0; shipIndex < shipCoordinates.length; shipIndex++) {
       //   // first loop will go over each COLLECTION of coordinates
       //   //This index will be used to identify which ship will be hit.
@@ -79,7 +85,8 @@ function Gameboard() {
     misses,
     hits,
     placeShip,
-    isHit,
+    getShipIndex,
+    getShip,
     receiveAttack,
     areAllShipsSunk,
   };
