@@ -90,7 +90,11 @@ export function DOM() {
     //apply placeSHip func to each set of coordinates
   }
 
-  function renderResults(coordinates = [], className, player = "player1") {
+  function renderResultsOfAttack(
+    coordinates = [],
+    className,
+    player = "player1"
+  ) {
     for (let index = 0; index < coordinates.length; index++) {
       const currentCoordinate = coordinates[index];
       const square = document.querySelector(
@@ -117,5 +121,11 @@ export function DOM() {
     renderShips(player1Ships, "player1");
   }
 
-  return { receiveAttack, initialize, placeShip };
+  return {
+    renderResultsOfAttack,
+    clearResults,
+    initialize,
+    placeShip,
+    receiveAttack,
+  };
 }
