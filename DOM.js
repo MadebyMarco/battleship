@@ -113,6 +113,10 @@ export function DOM() {
     }
   }
 
+  function announce(message = "Player 1's turn") {
+    document.querySelector(".announcements").textContent = message;
+  }
+
   function initialize(player1Ships) {
     const gameboard1 = document.querySelector("#player1.gameboard");
     gameboard1.append(...createGameboard(gameboardSettings));
@@ -127,5 +131,6 @@ export function DOM() {
     initialize,
     placeShip,
     receiveAttack,
+    announce,
   };
 }
