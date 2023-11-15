@@ -70,7 +70,10 @@ export function Game() {
   function loopAgainstComputer(player1, player2, coordinate) {
     const round = {};
 
-    if (!player1.isNovelMove(coordinate)) return "please enter a new move";
+    if (!player1.isNovelMove(coordinate)) {
+      round.error = "Please enter a new move";
+      return round;
+    }
     player1.moves.push(coordinate);
     round.player1result = player2.gameboard.receiveAttack(coordinate);
     if (round.player1result === "hit")
