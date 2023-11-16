@@ -65,7 +65,8 @@ export function UI(player1, player2) {
     if (round.player1SunkShip) dom.announce("Player 1 sunk ship");
     if (round.winner) dom.announce(round.winner);
 
-    // document.removeEventListener("click", handleClick);
+    document.removeEventListener("click", handleClick);
+
     setTimeout(() => {
       dom.renderResultsOfAttack(player1.gameboard.hits, "hit", "player1");
       dom.renderResultsOfAttack(player1.gameboard.misses, "miss", "player1");
@@ -77,7 +78,7 @@ export function UI(player1, player2) {
       dom.announce("Player 2 " + round.player2result);
       if (round.player2SunkShip) dom.announce("Player 2 sunk ship");
       if (round.winner) dom.announce(round.winner);
-      // document.addEventListener("click", handleClick);
+      document.addEventListener("click", handleClick);
     }, 2000);
   }
 
