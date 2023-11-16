@@ -22,6 +22,13 @@ function Gameboard() {
     return ship;
   }
 
+  function getSunkShipCoordinates(coordinate) {
+    const index = getShipIndex(this.shipCoordinates, coordinate);
+    if (!index) return [[-1, -1]];
+    const sunkShipCoordinates = this.shipCoordinates[index];
+    return sunkShipCoordinates;
+  }
+
   function sortCoordinates(coordinates) {
     // sets coordinates in ascending order
     const sortedCoordinates = [...coordinates];
@@ -90,6 +97,7 @@ function Gameboard() {
     getShip,
     receiveAttack,
     areAllShipsSunk,
+    getSunkShipCoordinates,
   };
 }
 
