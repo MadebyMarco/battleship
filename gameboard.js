@@ -22,11 +22,13 @@ function Gameboard() {
     return ship;
   }
 
-  function getSunkShipCoordinates(coordinate) {
-    const index = getShipIndex(this.shipCoordinates, coordinate);
-    if (!index) return [[-1, -1]];
-    const sunkShipCoordinates = this.shipCoordinates[index];
-    return sunkShipCoordinates;
+  function getSunkShipsCoordinates() {
+    const sunkShipsCoordinates = [];
+    for (let i = 0; i < 5; i++) {
+      if (this.ships[i].isSunk())
+        sunkShipsCoordinates.push(this.shipCoordinates[i]);
+    }
+    return sunkShipsCoordinates;
   }
 
   function sortCoordinates(coordinates) {
@@ -97,7 +99,7 @@ function Gameboard() {
     getShip,
     receiveAttack,
     areAllShipsSunk,
-    getSunkShipCoordinates,
+    getSunkShipsCoordinates,
   };
 }
 
