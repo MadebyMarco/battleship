@@ -57,6 +57,10 @@ main .announcements {
   text-align: center;
 }
 
+div.sunk {
+  background-color: var(--dark-purple);
+}
+
 .bow.vertical.square {
   border-top: 2px solid orange;
 }
