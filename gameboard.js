@@ -26,7 +26,7 @@ function Gameboard() {
     const sunkShipsCoordinates = [];
     for (let i = 0; i < 5; i++) {
       if (this.ships[i].isSunk())
-        sunkShipsCoordinates.push(this.shipCoordinates[i]);
+        sunkShipsCoordinates.push(...this.shipCoordinates[i]);
     }
     return sunkShipsCoordinates;
   }
