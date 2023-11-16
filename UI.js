@@ -56,21 +56,33 @@ export function UI(player1, player2) {
 
     dom.renderResultsOfAttack(player2.gameboard.hits, "hit", "player2");
     dom.renderResultsOfAttack(player2.gameboard.misses, "miss", "player2");
+    dom.renderResultsOfAttack(
+      player2.gameboard.getSunkShipsCoordinates(),
+      "sunk",
+      "player2"
+    );
     dom.announce("Player 1 " + round.player1result);
     if (round.player1SunkShip) dom.announce("Player 1 sunk ship");
     if (round.winner) dom.announce(round.winner);
 
+    // document.removeEventListener("click", handleClick);
     setTimeout(() => {
       dom.renderResultsOfAttack(player1.gameboard.hits, "hit", "player1");
       dom.renderResultsOfAttack(player1.gameboard.misses, "miss", "player1");
+      dom.renderResultsOfAttack(
+        player1.gameboard.getSunkShipsCoordinates(),
+        "sunk",
+        "player1"
+      );
       dom.announce("Player 2 " + round.player2result);
       if (round.player2SunkShip) dom.announce("Player 2 sunk ship");
       if (round.winner) dom.announce(round.winner);
+      // document.addEventListener("click", handleClick);
     }, 2000);
   }
 
   function roundValidity(round) {
-    if (round === "please enter a new move") {
+    if (round.error === "Please enter a new move") {
       return false;
     }
     return true;
