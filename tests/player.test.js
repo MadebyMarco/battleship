@@ -1,4 +1,4 @@
-import { Player } from "./player";
+import { Player } from "../player";
 const player = Player();
 player.moves.push([1, 1]);
 
