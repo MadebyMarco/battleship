@@ -117,18 +117,16 @@ export function DOM() {
     document.querySelector(".announcements").textContent = message;
   }
 
-  function initialize(player1Ships) {
-    const gameboard1 = document.querySelector("#player1.gameboard");
-    gameboard1.append(...createGameboard(gameboardSettings));
-    const gameboard2 = document.querySelector("#player2.gameboard");
-    gameboard2.append(...createGameboard(gameboardSettings));
-    renderShips(player1Ships, "player1");
+  function renderGameboard(playerShips, player) {
+    const gameboard = document.querySelector("#" + player + ".gameboard");
+    gameboard.append(...createGameboard(gameboardSettings));
+    renderShips(playerShips, player);
   }
 
   return {
     renderResultsOfAttack,
     clearResults,
-    initialize,
+    renderGameboard,
     placeShip,
     receiveAttack,
     announce,
