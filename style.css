@@ -30,6 +30,33 @@ body {
   display: grid;
 }
 
+.ai-slider {
+  height: 30px;
+  width: 50px;
+  background-color: var(--dark-purple);
+  border-radius: 25px;
+  display: flex;
+  padding: 5px;
+  justify-content: end;
+  align-items: center;
+}
+
+.slider-circle {
+  border-radius: 15px;
+  height: 20px;
+  width: 20px;
+  background-color: var(--bright-green);
+}
+
+.slider-circle.off {
+  background-color: var(--dark-purple);
+}
+
+.ai-slider.off {
+  justify-content: start;
+  background-color: var(--bright-green);
+}
+
 .startButton {
   text-align: center;
   justify-self: center;
