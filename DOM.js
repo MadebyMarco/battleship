@@ -123,6 +123,24 @@ export function DOM() {
     renderShips(playerShips, player);
   }
 
+  function renderModelShips(player) {
+    const shipSection = document.querySelector("#" + player + ".ships");
+    const shipSizesClass = ["size-2", "size-3", "size-3", "size-4", "size-5"];
+    const shipContainers = createElements("div", 5, (container) => {
+      container.classList.add("model-ship-container");
+      container.classList.add(shipSizesClass.pop());
+    });
+    const shipSizes = [5, 4, 3, 3, 2];
+    for (let i = 0; i < 5; i++) {
+      shipContainers[i].append(
+        ...createElements("div", shipSizes[i], (ship) =>
+          ship.classList.add("model-ship-square")
+        )
+      );
+      shipSection.append(shipContainers[i]);
+    }
+  }
+
   return {
     renderResultsOfAttack,
     clearResults,
@@ -130,5 +148,6 @@ export function DOM() {
     placeShip,
     receiveAttack,
     announce,
+    renderModelShips,
   };
 }
