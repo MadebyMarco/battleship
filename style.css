@@ -1,5 +1,6 @@
 :root {
   --square-size: 40px;
+  --square-color: var(--bright-green);
   --gameboard-rows: 10;
   --gameboard-columns: 10;
   --bright-green: #5efc13;
@@ -84,6 +85,30 @@ main .announcements {
   text-align: center;
 }
 
+.ships {
+  --square-size: 20px;
+  display: grid;
+  grid-template-columns: calc(var(--square-size) * 4);
+  grid-template-rows: repeat(5, var(--square-size));
+}
+
+.model-ship-container {
+  display: grid;
+}
+
+.size-5 {
+  grid-template-columns: repeat(5, var(--square-size));
+}
+.size-4 {
+  grid-template-columns: repeat(4, min-content);
+}
+.size-3 {
+  grid-template-columns: repeat(3, min-content);
+}
+.size-2 {
+  grid-template-columns: repeat(2, min-content);
+}
+
 div.sunk {
   background-color: var(--dark-purple);
 }
@@ -133,4 +158,9 @@ div.sunk {
   grid-template-columns: repeat(var(--gameboard-columns), var(--square-size));
   grid-template-rows: repeat(var(--gameboard-rows), var(--square-size));
   justify-content: center;
+}
+
+.section {
+  display: grid;
+  grid-template-columns: min-content min-content;
 }
