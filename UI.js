@@ -1,10 +1,15 @@
 import { DOM } from "./DOM.js";
+import { coordinate as Coordinate } from "./coordinate.js";
 import { Game } from "./game.js";
 const dom = DOM();
 const game = Game();
 
 export function UI(player1, player2) {
   document.addEventListener("click", handleClick);
+  document.querySelector(".ai-slider").addEventListener("click", () => {
+    document.querySelector(".ai-slider").classList.toggle("off");
+    document.querySelector(".slider-circle").classList.toggle("off");
+  });
 
   function handleClick(event) {
     if (player2.ai) {
@@ -43,7 +48,7 @@ export function UI(player1, player2) {
     if (!eventValidity(event)) return;
     console.log("event valid");
 
-    const coordinate = getCoordinate(event);
+    const coordinate = Coordinate().toArray(event.target.dataset.coordinate);
     if (!coordinate) return;
     console.log("coordinate valid");
 
