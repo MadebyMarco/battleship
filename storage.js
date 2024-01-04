@@ -15,10 +15,15 @@ export function Storage() {
     return localStorage.getItem("gameboard" + playerNumber);
   }
 
+  function clear() {
+    localStorage.clear();
+  }
+
   return {
     setPlayer,
     setGameboard,
     getPlayer,
     getGameboard,
+    clear,
   };
 }
