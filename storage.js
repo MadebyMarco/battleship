@@ -7,8 +7,18 @@ export function Storage() {
     localStorage.setItem("gameboard" + playerNumber, gameboard);
   }
 
+  function getPlayer(playerNumber = 1) {
+    return localStorage.getItem("player" + playerNumber);
+  }
+
+  function getGameboard(playerNumber = 1) {
+    return localStorage.getItem("gameboard" + playerNumber);
+  }
+
   return {
     setPlayer,
     setGameboard,
+    getPlayer,
+    getGameboard,
   };
 }
