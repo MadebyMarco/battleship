@@ -11,8 +11,21 @@ export function coordinate() {
     return coordinate;
   }
 
+  function getOrientation(elements) {
+    let orientation = "horizontal";
+    if (
+      isVertical([
+        elements[0].dataset.coordinate,
+        elements[1].dataset.coordinate,
+      ])
+    ) {
+      orientation = "vertical";
+    }
+    return orientation;
+  }
   return {
     isVertical,
     toArray,
+    getOrientation,
   };
 }
