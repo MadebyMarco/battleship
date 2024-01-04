@@ -1,3 +1,4 @@
+import { Coordinate } from "./coordinate";
 export function DOM() {
   function createElements(element, quantity = 10, callbackFn) {
     const nodeArray = [];
@@ -12,21 +13,6 @@ export function DOM() {
   function createGameboard(callbackFn) {
     const gameboardNodes = createElements("div", 100, callbackFn);
     const coordinateNodes = setCoordinates(gameboardNodes);
-    return coordinateNodes;
-  }
-
-  function setCoordinates(nodes, maxYAxis = 9) {
-    let xAxis = 0;
-    let yAxis = maxYAxis;
-    const coordinateNodes = [...nodes];
-    coordinateNodes.forEach((node) => {
-      if (xAxis > maxYAxis) {
-        xAxis = 0;
-        yAxis = yAxis - 1;
-      }
-      node.dataset.coordinate = [xAxis, yAxis];
-      xAxis++;
-    });
     return coordinateNodes;
   }
 

@@ -1,4 +1,4 @@
-export function coordinate() {
+export function Coordinate() {
   function isVertical(coordinates) {
     const xAxis1 = parseInt(coordinates[0][0]);
     const xAxis2 = parseInt(coordinates[1][0]);
@@ -23,9 +23,25 @@ export function coordinate() {
     }
     return orientation;
   }
+
+  function set(nodes, maxYAxis = 9) {
+    let xAxis = 0;
+    let yAxis = maxYAxis;
+    const coordinateNodes = [...nodes];
+    coordinateNodes.forEach((node) => {
+      if (xAxis > maxYAxis) {
+        xAxis = 0;
+        yAxis = yAxis - 1;
+      }
+      node.dataset.coordinate = [xAxis, yAxis];
+      xAxis++;
+    });
+    return coordinateNodes;
+  }
   return {
     isVertical,
     toArray,
     getOrientation,
+    set,
   };
 }
