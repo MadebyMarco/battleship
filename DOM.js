@@ -136,6 +136,7 @@ export function DOM() {
   // add shake transition, using keyframes, if hit
   // firing sounds upon clicking a square, water sounds on miss, explosion sounds on hit
   return {
+    createGameboard,
     renderResultsOfAttack,
     clearResults,
     renderPlayerGameboard,
