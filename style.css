@@ -72,12 +72,17 @@ body {
   outline: var(--bright-green) solid 2px;
 }
 
-main {
+.game-is-live {
   display: grid;
   justify-content: center;
   grid-template-columns: min-content min-content;
   grid-template-rows: min-content min-content;
   column-gap: 15px;
+}
+
+.place-ships {
+  display: grid;
+  justify-content: center;
 }
 
 main .announcements {
