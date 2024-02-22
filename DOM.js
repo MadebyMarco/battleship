@@ -83,7 +83,7 @@ export function DOM() {
     document.querySelector(".announcements").textContent = message;
   }
 
-  function renderGameboard(playerShips, player) {
+  function renderPlayerGameboard(playerShips, player) {
     const gameboard = document.querySelector("#" + player + ".gameboard");
     gameboard.append(...createGameboard(gameboardSettings));
     renderShips(playerShips, player);
@@ -108,6 +108,19 @@ export function DOM() {
     }
   }
 
+  function initializeGame() {
+    const main = document.querySelector("main");
+    main.innerHTML = `
+      <div id="player1" class="section">
+        <div class="ships" id="player1"></div>
+        <div class="gameboard" id="player1"></div>
+      </div>
+      <div id="player2" class="section">
+        <div class="gameboard" id="player2"></div>
+        <div class="ships" id="player2"></div>
+      </div> `;
+  }
+
   // todo
   // create gameboard to get player coordinates
   // I think if each rendered ship had classes associated with them, it would be easier to find
@@ -125,10 +138,11 @@ export function DOM() {
   return {
     renderResultsOfAttack,
     clearResults,
-    renderGameboard,
+    renderPlayerGameboard,
     placeShip,
     receiveAttack,
     announce,
     renderModelShips,
+    initializeGame,
   };
 }
