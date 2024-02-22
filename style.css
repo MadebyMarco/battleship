@@ -84,7 +84,7 @@ main .announcements {
   grid-column: 1/3;
   text-align: center;
 }
-
+/* fix model ship square sizes */
 .ships {
   --square-size: 20px;
   display: grid;
