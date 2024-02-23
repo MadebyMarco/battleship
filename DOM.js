@@ -128,14 +128,14 @@ export function DOM() {
       </div> `;
   }
 
-  function renderGameboardForPlacingShips() {
-    const main = document.querySelector("main");
+  function renderGameboardForPlacingShips(renderTarget = "main") {
+    const main = document.querySelector(renderTarget);
     main.append(...createGameboard(gameboardSettings));
     // clicking start will add place-ship class to main, not adding it here is better, less tangling
   }
 
-  function renderControlsForPlacingShips() {
-    const main = document.querySelector("main");
+  function renderControlsForPlacingShips(renderTarget = "main") {
+    const main = document.querySelector(renderTarget);
     main.innerHTML += `
       <div class="x controls">
         <h2>X</h2>
@@ -156,8 +156,6 @@ export function DOM() {
   }
 
   // todo
-  // create gameboard to get player coordinates
-  // I think if each rendered ship had classes associated with them, it would be easier to find
   // click start -> creates gameboard with ships placed
   // click on ship -> find other divs with same ship class and select them as current ship
   // click on arrow -> change x or y value depending on the arrow direction
