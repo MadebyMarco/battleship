@@ -83,6 +83,8 @@ body {
 .place-ships {
   display: grid;
   justify-content: center;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(5, min-content);
 }
 
 main .announcements {
