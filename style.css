@@ -72,7 +72,7 @@ body {
   outline: var(--bright-green) solid 2px;
 }
 
-.game-is-live {
+.game-is-live-screen {
   display: grid;
   justify-content: center;
   grid-template-columns: min-content min-content;
@@ -80,11 +80,18 @@ body {
   column-gap: 15px;
 }
 
-.place-ships {
+.place-ships-screen {
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(5, min-content);
+}
+
+.place-ships-button {
+  width: 1000px;
+  height: 300px;
+
+  transform: skewX(-45deg) scaleY(cos(45deg));
 }
 
 main .announcements {
