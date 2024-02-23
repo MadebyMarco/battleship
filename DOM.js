@@ -26,13 +26,16 @@ export function DOM() {
   }
   // stern: back of boat
   // bow: front of boat
-  function placeShip(elements) {
+  function placeShip(elements, isSecondSize3Ship = false) {
     let orientation = Coordinate().getOrientation(elements);
+    let shipSize = "size-" + elements.length;
+    if (isSecondSize3Ship) shipSize = "size-3-2";
     for (let index = 0; index < elements.length; index++) {
       if (index == 0) elements[index].classList.add("stern");
       if (index == elements.length - 1) elements[index].classList.add("bow");
       elements[index].classList.add(orientation);
       elements[index].classList.add("ship");
+      elements[index].classList.add(shipSize);
     }
   }
 
@@ -50,8 +53,12 @@ export function DOM() {
 
   // render out ships
   function renderShips(shipCoordinates, player) {
+    let isSecondSize3Ship = false;
+    // uses isSecondSize3Ship to add class "size-3-2" to identify the two separately
     shipCoordinates.forEach((coordinate) => {
-      placeShip(getShipElements(coordinate, player));
+      if (coordinate.length == 3 && !isSecondSize3Ship)
+        isSecondSize3Ship = true;
+      placeShip(getShipElements(coordinate, player), isSecondSize3Ship);
     });
     //apply placeSHip func to each set of coordinates
   }
@@ -119,6 +126,33 @@ export function DOM() {
         <div class="gameboard" id="player2"></div>
         <div class="ships" id="player2"></div>
       </div> `;
+  }
+
+  function renderGameboardForPlacingShips() {
+    const main = document.querySelector("main");
+    main.append(...createGameboard(gameboardSettings));
+    // clicking start will add place-ship class to main, not adding it here is better, less tangling
+  }
+
+  function renderControlsForPlacingShips() {
+    const main = document.querySelector("main");
+    main.innerHTML += `
+      <div class="x controls">
+        <h2>X</h2>
+        <div class="buttons"></div>
+      </div>
+      <div class="y controls">
+        <h2>Y</h2>
+        <div class="buttons"></div>
+      </div>
+      <div class="rotate controls">
+        <h2>Rotate</h2>
+        <div class="buttons"></div>
+      </div>
+      <div class="place controls">
+        <h2>Place Ships</h2>
+      </div>`;
+    // need to code the event handlers listed below in UI.js
   }
 
   // todo
