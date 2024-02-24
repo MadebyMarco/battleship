@@ -129,8 +129,10 @@ export function DOM() {
   }
 
   function renderGameboardForPlacingShips(renderTarget = "main") {
-    const main = document.querySelector(renderTarget);
-    main.append(...createGameboard(gameboardSettings));
+    const gameboard = document.createElement("div");
+    gameboard.classList.add("gameboard");
+    gameboard.append(...createGameboard(gameboardSettings));
+    document.querySelector(renderTarget).append(gameboard);
     // clicking start will add place-ship class to main, not adding it here is better, less tangling
   }
 
