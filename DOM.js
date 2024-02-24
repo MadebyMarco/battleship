@@ -91,6 +91,7 @@ export function DOM() {
   }
 
   function renderPlayerGameboard(playerShips, player) {
+    // problem with this function is that it expect theres to be an empty gameboard div instead of ret
     const gameboard = document.querySelector("#" + player + ".gameboard");
     gameboard.append(...createGameboard(gameboardSettings));
     renderShips(playerShips, player);
@@ -128,9 +129,10 @@ export function DOM() {
       </div> `;
   }
 
-  function renderGameboardForPlacingShips(renderTarget = "main") {
+  function renderGameboardForPlacingShips(renderTarget = "main", player) {
     const gameboard = document.createElement("div");
     gameboard.classList.add("gameboard");
+    gameboard.id = player;
     gameboard.append(...createGameboard(gameboardSettings));
     document.querySelector(renderTarget).append(gameboard);
     // clicking start will add place-ship class to main, not adding it here is better, less tangling
@@ -181,5 +183,6 @@ export function DOM() {
     initializeGame,
     renderControlsForPlacingShips,
     renderGameboardForPlacingShips,
+    renderShips,
   };
 }
