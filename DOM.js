@@ -177,5 +177,7 @@ export function DOM() {
     announce,
     renderModelShips,
     initializeGame,
+    renderControlsForPlacingShips,
+    renderGameboardForPlacingShips,
   };
 }
