@@ -83,15 +83,20 @@ body {
 .place-ships-screen {
   display: grid;
   justify-content: center;
+  align-items: center;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(5, min-content);
 }
-
+/* style div.place so it overlaps one div that has .place-ships-button and one div with text that says place ship*/
 .place-ships-button {
-  width: 1000px;
-  height: 300px;
+  /* width: 500px;
+  height: 150px; */
 
   transform: skewX(-45deg) scaleY(cos(45deg));
+}
+
+div.square.selected {
+  background-color: white;
 }
 
 main .announcements {
