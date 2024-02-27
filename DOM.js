@@ -29,7 +29,7 @@ export function DOM() {
   function placeShip(elements, isSecondSize3Ship = false) {
     let orientation = Coordinate().getOrientation(elements);
     let shipSize = "size-" + elements.length;
-    if (isSecondSize3Ship) shipSize = "size-3-2";
+    if (isSecondSize3Ship && elements.length == 3) shipSize = "size-3-2";
     for (let index = 0; index < elements.length; index++) {
       if (index == 0) elements[index].classList.add("stern");
       if (index == elements.length - 1) elements[index].classList.add("bow");
@@ -56,9 +56,9 @@ export function DOM() {
     let isSecondSize3Ship = false;
     // uses isSecondSize3Ship to add class "size-3-2" to identify the two separately
     shipCoordinates.forEach((coordinate) => {
+      placeShip(getShipElements(coordinate, player), isSecondSize3Ship);
       if (coordinate.length == 3 && !isSecondSize3Ship)
         isSecondSize3Ship = true;
-      placeShip(getShipElements(coordinate, player), isSecondSize3Ship);
     });
     //apply placeSHip func to each set of coordinates
   }
@@ -135,7 +135,6 @@ export function DOM() {
     gameboard.id = player;
     gameboard.append(...createGameboard(gameboardSettings));
     document.querySelector(renderTarget).append(gameboard);
-    // clicking start will add place-ship class to main, not adding it here is better, less tangling
   }
 
   function renderControlsForPlacingShips(renderTarget = "main") {
@@ -153,8 +152,8 @@ export function DOM() {
         <h2>Rotate</h2>
         <div class="buttons"></div>
       </div>
-      <div class="place controls">
-        <h2>Place Ships</h2>
+      <div class="place">
+        <button class="place-ships-button">Place Ships</button>
       </div>`;
     // need to code the event handlers listed below in UI.js
   }
