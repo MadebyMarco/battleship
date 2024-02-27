@@ -28,13 +28,21 @@ export function UI(player1, player2) {
     dom.renderShips(Coordinate().getDefault(), "player1");
   }
 
+  function selectShip(event) {
+    if (event.target.classList.contains("ship")) {
+      document
+        .querySelectorAll(".selected")
+        .forEach((ship) => ship.classList.remove("selected"));
+      const size = event.target.dataset.size;
+      const ships = document.querySelectorAll(`div[data-size="${size}"]`);
+      ships.forEach((ship) => ship.classList.add("selected"));
+    }
+  }
+
   function handleClick(event) {
     placeShipsScreen(event);
-    if (event.target.classList.contains("ship")) {
-      const size = event.target.dataset.size;
-      console.log(document.querySelectorAll(`div[data-size="${size}"]`));
-      // maybe get the players move on the button, send that to renderShip, rerender the ships but send the new coordinates with the input from the user, so if the coordinates are 0,1 0,2 and he hits x up, put 1,1 and 1,2 into placeShips
-    }
+    selectShip(event);
+    // maybe get the players move on the button, send that to renderShip, rerender the ships but send the new coordinates with the input from the user, so if the coordinates are 0,1 0,2 and he hits x up, put 1,1 and 1,2 into placeShips
     if (player2.ai) {
       vsComputer(event);
       return;
