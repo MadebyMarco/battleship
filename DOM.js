@@ -35,7 +35,7 @@ export function DOM() {
       if (index == elements.length - 1) elements[index].classList.add("bow");
       elements[index].classList.add(orientation);
       elements[index].classList.add("ship");
-      elements[index].classList.add(shipSize);
+      elements[index].dataset.size = shipSize;
     }
   }
 
