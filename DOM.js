@@ -142,15 +142,23 @@ export function DOM() {
     main.innerHTML += `
       <div class="x controls">
         <h2>X</h2>
-        <div class="buttons"></div>
+        <div class="buttons">
+        <button data-transform-value=-1>⬅</button>
+        <button data-transform-value=1>➡</button>
+        </div>
       </div>
       <div class="y controls">
         <h2>Y</h2>
-        <div class="buttons"></div>
+        <div class="buttons">
+        <button data-transform-value=1>⬆</button>
+        <button data-transform-value=-1>⬇</button>
+        </div>
       </div>
       <div class="rotate controls">
         <h2>Rotate</h2>
-        <div class="buttons"></div>
+        <div class="buttons">
+        <button data-transform-value=0>🗘</button>
+        </div>
       </div>
       <div class="place">
         <button class="place-ships-button">Place Ships</button>
