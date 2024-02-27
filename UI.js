@@ -6,12 +6,35 @@ const game = Game();
 
 export function UI(player1, player2) {
   document.addEventListener("click", handleClick);
+
   document.querySelector(".ai-slider").addEventListener("click", () => {
     document.querySelector(".ai-slider").classList.toggle("off");
     document.querySelector(".slider-circle").classList.toggle("off");
   });
+  // todo
+  // click on ship -> find other divs with same ship class and select them as current ship
+  // click start -> creates gameboard with ships placed
+  // click on arrow -> change x or y value depending on the arrow direction
+  // click on rotate -> use the first coordinate as an anchor, if the ship is vertical, change coordinates from change in y to change in x relative to anchors position, if the ship is horizontal, change coordinates from change in x to change in y relative to anchors position.
+  // Need to create these x buttons, y buttons, rotate button, place button
+
+  function placeShipsScreen(event) {
+    if (!event.target.classList.contains("startButton")) return;
+    event.target.remove();
+    const renderTarget = "main";
+    document.querySelector(renderTarget).classList.add("place-ships-screen");
+    dom.renderControlsForPlacingShips(renderTarget);
+    dom.renderGameboardForPlacingShips(renderTarget, "player1");
+    dom.renderShips(Coordinate().getDefault(), "player1");
+  }
 
   function handleClick(event) {
+    placeShipsScreen(event);
+    if (event.target.classList.contains("ship")) {
+      const size = event.target.dataset.size;
+      console.log(document.querySelectorAll(`div[data-size="${size}"]`));
+      // maybe get the players move on the button, send that to renderShip, rerender the ships but send the new coordinates with the input from the user, so if the coordinates are 0,1 0,2 and he hits x up, put 1,1 and 1,2 into placeShips
+    }
     if (player2.ai) {
       vsComputer(event);
       return;
@@ -105,17 +128,5 @@ export function UI(player1, player2) {
     const dataCoordinate = event.target.dataset.coordinate;
     const coordinate = [+dataCoordinate[0], +dataCoordinate[2]];
     return coordinate;
-  }
-
-  function getPlayerShipCoordinates() {
-    // todo
-    // create gameboard to get player coordinates
-    // I think if each rendered ship had classes associated with them, it would be easier to find
-    // Need to create these x buttons, y buttons, rotate button, place button
-    // This top half should be in DOM.js
-    // click start -> creates gameboard with ships placed
-    // click on ship -> find other divs with same ship class and select them as current ship
-    // click on arrow -> change x or y value depending on the arrow direction
-    // click on rotate -> use the first coordinate as an anchor, if the ship is vertical, change coordinates from change in y to change in x relative to anchors position, if the ship is horizontal, change coordinates from change in x to change in y relative to anchors position.
   }
 }
