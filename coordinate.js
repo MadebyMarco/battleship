@@ -70,11 +70,22 @@ export function Coordinate() {
       ],
     ];
   }
+
+  function processJSON(JSONCoordinates) {
+    const processedCoordinates = [];
+    for (let i = 0; i < 67; i += 4) {
+      processedCoordinates.push(
+        toArray(JSONCoordinates[i] + "," + JSONCoordinates[i + 2])
+      );
+    }
+    return processedCoordinates;
+  }
   return {
     isVertical,
     toArray,
     getOrientation,
     set,
     getDefault,
+    processJSON,
   };
 }
