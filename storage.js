@@ -15,6 +15,14 @@ export function Storage() {
     return localStorage.getItem("gameboard" + playerNumber);
   }
 
+  function setCoordinates(playerNumber, coordinates) {
+    localStorage.setItem("player" + playerNumber + "Coordinates", coordinates);
+  }
+
+  function getCoordinates(playerNumber) {
+    return localStorage.getItem("player" + playerNumber + "Coordinates");
+  }
+
   function clear() {
     localStorage.clear();
   }
@@ -22,8 +30,10 @@ export function Storage() {
   return {
     setPlayer,
     setGameboard,
+    setCoordinates,
     getPlayer,
     getGameboard,
+    getCoordinates,
     clear,
   };
 }
