@@ -1,8 +1,10 @@
 import { DOM } from "./DOM.js";
 import { Coordinate } from "./coordinate.js";
 import { Game } from "./game.js";
+import { Storage } from "./storage.js";
 const dom = DOM();
 const game = Game();
+const storage = Storage();
 
 export function UI(player1, player2) {
   document.addEventListener("click", handleClick);
@@ -23,9 +25,13 @@ export function UI(player1, player2) {
     event.target.remove();
     const renderTarget = "main";
     document.querySelector(renderTarget).classList.add("place-ships-screen");
+    storage.setCoordinates(1, Coordinate().getDefault());
     dom.renderControlsForPlacingShips(renderTarget);
     dom.renderGameboardForPlacingShips(renderTarget, "player1");
-    dom.renderShips(Coordinate().getDefault(), "player1");
+    const processedCoordinates = Coordinate().processJSON(
+      storage.getCoordinates()
+    );
+    dom.renderShips(processedCoordinates, "player1");
   }
 
   function selectShip(event) {
@@ -42,6 +48,9 @@ export function UI(player1, player2) {
   function handleClick(event) {
     placeShipsScreen(event);
     selectShip(event);
+    if (event.target.classList.contains("place-ships-button")) {
+      const ships = document.querySelectorAll(".ship");
+    }
     // maybe get the players move on the button, send that to renderShip, rerender the ships but send the new coordinates with the input from the user, so if the coordinates are 0,1 0,2 and he hits x up, put 1,1 and 1,2 into placeShips
     if (player2.ai) {
       vsComputer(event);
