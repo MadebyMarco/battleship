@@ -72,9 +72,14 @@ export function Coordinate() {
   }
 
   function processJSON(JSONCoordinates) {
-    const processedCoordinates = [];
+    const processedCoordinates = [[], [], [], [], []];
+    let index = 0;
     for (let i = 0; i < 67; i += 4) {
-      processedCoordinates.push(
+      if (i >= 20) index = 1;
+      if (i >= 36) index = 2;
+      if (i >= 48) index = 3;
+      if (i >= 60) index = 4;
+      processedCoordinates[index].push(
         toArray(JSONCoordinates[i] + "," + JSONCoordinates[i + 2])
       );
     }
