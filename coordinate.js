@@ -70,6 +70,15 @@ export function Coordinate() {
       ],
     };
   }
+  function translate(coordinateArray = [[], []], axis, difference) {
+    const translatedArray = [...coordinateArray];
+    const translatedValue = translatedArray[0][axis] + difference;
+    if (translatedValue < 0 || translatedValue > 9) return [];
+    translatedArray.forEach((array) => {
+      array[axis] += difference;
+    });
+    return translatedArray;
+  }
 
   function processJSON(JSONCoordinates) {
     const shipsCoordinates = JSON.parse(JSONCoordinates);
@@ -83,6 +92,7 @@ export function Coordinate() {
     return processedCoordinates;
   }
   return {
+    translate,
     isVertical,
     toArray,
     getOrientation,
