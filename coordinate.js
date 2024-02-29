@@ -40,49 +40,46 @@ export function Coordinate() {
   }
 
   function getDefault() {
-    return [
-      [
+    return {
+      "size-5": [
         [0, 1],
         [0, 2],
         [0, 3],
         [0, 4],
         [0, 5],
       ],
-      [
+      "size-4": [
         [1, 1],
         [1, 2],
         [1, 3],
         [1, 4],
       ],
-      [
+      "size-3": [
         [2, 1],
         [2, 2],
         [2, 3],
       ],
-      [
+      "size-3-2": [
         [3, 1],
         [3, 2],
         [3, 3],
       ],
-      [
+      "size-2": [
         [4, 1],
         [4, 2],
       ],
-    ];
+    };
   }
 
   function processJSON(JSONCoordinates) {
-    const processedCoordinates = [[], [], [], [], []];
-    let index = 0;
-    for (let i = 0; i < 67; i += 4) {
-      if (i >= 20) index = 1;
-      if (i >= 36) index = 2;
-      if (i >= 48) index = 3;
-      if (i >= 60) index = 4;
-      processedCoordinates[index].push(
-        toArray(JSONCoordinates[i] + "," + JSONCoordinates[i + 2])
-      );
-    }
+    const shipsCoordinates = JSON.parse(JSONCoordinates);
+    const processedCoordinates = [
+      shipsCoordinates["size-5"],
+      shipsCoordinates["size-4"],
+      shipsCoordinates["size-3"],
+      shipsCoordinates["size-3-2"],
+      shipsCoordinates["size-2"],
+    ];
     return processedCoordinates;
   }
   return {
