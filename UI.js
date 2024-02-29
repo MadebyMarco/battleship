@@ -14,7 +14,6 @@ export function UI(player1, player2) {
     document.querySelector(".slider-circle").classList.toggle("off");
   });
   // todo
-  // click on ship -> find other divs with same ship class and select them as current ship
   // click start -> creates gameboard with ships placed
   // click on arrow -> change x or y value depending on the arrow direction
   // click on rotate -> use the first coordinate as an anchor, if the ship is vertical, change coordinates from change in y to change in x relative to anchors position, if the ship is horizontal, change coordinates from change in x to change in y relative to anchors position.
@@ -29,8 +28,9 @@ export function UI(player1, player2) {
     dom.renderControlsForPlacingShips(renderTarget);
     dom.renderGameboardForPlacingShips(renderTarget, "player1");
     const processedCoordinates = Coordinate().processJSON(
-      storage.getCoordinates()
+      storage.getCoordinates(1)
     );
+    console.log(processedCoordinates);
     dom.renderShips(processedCoordinates, "player1");
   }
 
