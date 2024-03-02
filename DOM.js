@@ -157,7 +157,7 @@ export function DOM() {
       <div class="rotate controls">
         <h2>Rotate</h2>
         <div class="buttons">
-        <button data-rotate-value=0>🗘</button>
+        <button>🗘</button>
         </div>
       </div>
       <div class="place">
