@@ -143,21 +143,21 @@ export function DOM() {
       <div class="x controls">
         <h2>X</h2>
         <div class="buttons">
-        <button data-axis=0 data-transform-value=-1>⬅</button>
-        <button data-axis=0 data-transform-value=1>➡</button>
+        <button data-axis=0 data-translate-value=-1>⬅</button>
+        <button data-axis=0 data-translate-value=1>➡</button>
         </div>
       </div>
       <div class="y controls">
         <h2>Y</h2>
         <div class="buttons">
-        <button data-axis=1 data-transform-value=1>⬆</button>
-        <button data-axis=1 data-transform-value=-1>⬇</button>
+        <button data-axis=1 data-translate-value=1>⬆</button>
+        <button data-axis=1 data-translate-value=-1>⬇</button>
         </div>
       </div>
       <div class="rotate controls">
         <h2>Rotate</h2>
         <div class="buttons">
-        <button data-transform-value=0>🗘</button>
+        <button data-rotate-value=0>🗘</button>
         </div>
       </div>
       <div class="place">
