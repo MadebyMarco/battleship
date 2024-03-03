@@ -71,9 +71,21 @@ export function Coordinate() {
     };
   }
   function translate(coordinateArray = [[], []], axis, difference) {
+    if (typeof axis != "number" || typeof difference != "number") {
+      return coordinateArray;
+    }
+    const translatedValueFirst = coordinateArray[0][axis] + difference;
+    const translatedValueLast =
+      coordinateArray[coordinateArray.length - 1][axis] + difference;
+    if (
+      translatedValueFirst < 0 ||
+      translatedValueFirst > 9 ||
+      translatedValueLast < 0 ||
+      translatedValueLast > 9
+    )
+      return coordinateArray;
+
     const translatedArray = [...coordinateArray];
-    const translatedValue = translatedArray[0][axis] + difference;
-    if (translatedValue < 0 || translatedValue > 9) return [];
     translatedArray.forEach((array) => {
       array[axis] += difference;
     });
