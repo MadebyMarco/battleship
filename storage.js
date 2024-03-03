@@ -8,11 +8,11 @@ export function Storage() {
   }
 
   function getPlayer(playerNumber = 1) {
-    return localStorage.getItem("player" + playerNumber);
+    return JSON.parse(localStorage.getItem("player" + playerNumber));
   }
 
   function getGameboard(playerNumber = 1) {
-    return localStorage.getItem("gameboard" + playerNumber);
+    return JSON.parse(localStorage.getItem("gameboard" + playerNumber));
   }
 
   function setCoordinates(playerNumber, coordinates) {
@@ -22,8 +22,18 @@ export function Storage() {
     );
   }
 
+  function setSelectedShip(shipCoordinates) {
+    localStorage.setItem("selectedShip", shipCoordinates);
+  }
+
+  function getSelectedShip() {
+    return JSON.parse(localStorage.getItem("selectedShip"));
+  }
+
   function getCoordinates(playerNumber) {
-    return localStorage.getItem("player" + playerNumber + "Coordinates");
+    return JSON.parse(
+      localStorage.getItem("player" + playerNumber + "Coordinates")
+    );
   }
 
   function clear() {
