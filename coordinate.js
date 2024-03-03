@@ -80,14 +80,13 @@ export function Coordinate() {
     return translatedArray;
   }
 
-  function processJSON(JSONCoordinates) {
-    const shipsCoordinates = JSON.parse(JSONCoordinates);
+  function objectTo3DArray(shipCoordinatesObject) {
     const processedCoordinates = [
-      shipsCoordinates["size-5"],
-      shipsCoordinates["size-4"],
-      shipsCoordinates["size-3"],
-      shipsCoordinates["size-3-2"],
-      shipsCoordinates["size-2"],
+      shipCoordinatesObject["size-5"],
+      shipCoordinatesObject["size-4"],
+      shipCoordinatesObject["size-3"],
+      shipCoordinatesObject["size-3-2"],
+      shipCoordinatesObject["size-2"],
     ];
     return processedCoordinates;
   }
@@ -98,6 +97,6 @@ export function Coordinate() {
     getOrientation,
     set,
     getDefault,
-    processJSON,
+    objectTo3DArray,
   };
 }
