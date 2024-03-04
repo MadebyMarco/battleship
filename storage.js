@@ -22,11 +22,11 @@ export function Storage() {
     );
   }
 
-  function setSelectedShip(shipCoordinates) {
+  function setSelectedShipSize(shipCoordinates) {
     localStorage.setItem("selectedShip", shipCoordinates);
   }
 
-  function getSelectedShip() {
+  function getSelectedShipSize() {
     return JSON.parse(localStorage.getItem("selectedShip"));
   }
 
@@ -44,6 +44,8 @@ export function Storage() {
     setPlayer,
     setGameboard,
     setCoordinates,
+    setSelectedShipSize,
+    getSelectedShipSize,
     getPlayer,
     getGameboard,
     getCoordinates,
