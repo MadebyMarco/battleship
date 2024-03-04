@@ -14,7 +14,6 @@ export function UI(player1, player2) {
     document.querySelector(".slider-circle").classList.toggle("off");
   });
   // todo
-  // click start -> creates gameboard with ships placed
   // click on arrow -> change x or y value depending on the arrow direction
   // click on rotate -> use the first coordinate as an anchor, if the ship is vertical, change coordinates from change in y to change in x relative to anchors position, if the ship is horizontal, change coordinates from change in x to change in y relative to anchors position.
   // Need to create these x buttons, y buttons, rotate button, place button
@@ -27,30 +26,71 @@ export function UI(player1, player2) {
     storage.setCoordinates(1, Coordinate().getDefault());
     dom.renderControlsForPlacingShips(renderTarget);
     dom.renderGameboardForPlacingShips(renderTarget, "player1");
-    const processedCoordinates = Coordinate().processJSON(
+    const processedCoordinates = Coordinate().objectTo3DArray(
       storage.getCoordinates(1)
     );
-    console.log(processedCoordinates);
     dom.renderShips(processedCoordinates, "player1");
   }
 
   function selectShip(event) {
-    if (event.target.classList.contains("ship")) {
+    // selectShip should be a dom function that removes and places new ships using size arg
+    // selectShipFromEvent should be a function that verifies its a ship, and retrieves the dataset size to then use into selectShip
+    if (!event.target.classList.contains("ship")) return;
+    document
+      .querySelectorAll(".selected")
+      .forEach((ship) => ship.classList.remove("selected"));
+
+    let size = event.target.dataset.size;
+    const selectedShip = storage.getCoordinates(1)[size];
+    storage.setSelectedShip(size);
+
+    selectedShip.forEach((coordinate) => {
       document
-        .querySelectorAll(".selected")
-        .forEach((ship) => ship.classList.remove("selected"));
-      const size = event.target.dataset.size;
-      const ships = document.querySelectorAll(`div[data-size="${size}"]`);
-      ships.forEach((ship) => ship.classList.add("selected"));
-    }
+        .querySelector(`.ship[data-coordinate="${coordinate}"]`)
+        .classList.add("selected");
+    });
+
+    // /////////////////////////
+
+    // this should be two functions, one to remove and one to add
+    // also should be in dom
+    // and make getSelectedShipSize that would be good/ wrote would be good but not for what so now im not sure what i wanted it for
+  }
+
+  function translateShip(event) {
+    // take size, get gameboard coordinates of that size, transform coordinates, set gameboard coordinates of that size, rerender selected ships new position,
+    if (!document.querySelector(".selected")) return;
+    if (!event.target.dataset.axis === undefined) return;
+    const axis = +event.target.dataset.axis;
+    const translateValue = +event.target.dataset["translateValue"];
+    const selectedShip = document.querySelector(".selected");
+    const size = selectedShip.dataset.size;
+    const playerCoordinates = storage.getCoordinates(1);
+    const newShipCoordinates = Coordinate().translate(
+      playerCoordinates[size],
+      axis,
+      translateValue
+    );
+    playerCoordinates[size] = newShipCoordinates;
+    storage.setCoordinates(1, playerCoordinates);
+    // below this line should be in dom
+    document
+      .querySelectorAll(".ship")
+      .forEach((ship) =>
+        ship.classList.remove("ship", "vertical", "stern", "bow", "selected")
+      );
+    newShipCoordinates.forEach((coordinate) =>
+      document
+        .querySelector(`div[data-coordinate = "${coordinate}" ]`)
+        .classList.add("selected")
+    );
+    dom.renderShips(Coordinate().objectTo3DArray(playerCoordinates), "player1");
   }
 
   function handleClick(event) {
     placeShipsScreen(event);
     selectShip(event);
-    if (event.target.classList.contains("place-ships-button")) {
-      const ships = document.querySelectorAll(".ship");
-    }
+    translateShip(event);
     // maybe get the players move on the button, send that to renderShip, rerender the ships but send the new coordinates with the input from the user, so if the coordinates are 0,1 0,2 and he hits x up, put 1,1 and 1,2 into placeShips
     if (player2.ai) {
       vsComputer(event);
