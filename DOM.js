@@ -36,6 +36,8 @@ export function DOM() {
       elements[index].classList.add(orientation);
       elements[index].classList.add("ship");
       elements[index].dataset.size = shipSize;
+      // merge place ship with getShipElements in order to save time goes from o(n)^2 to o(n);
+      // could save even more time if I just get first and last elements, use them as endpoints, build the ships in between those endpoints
     }
   }
 
@@ -53,6 +55,7 @@ export function DOM() {
 
   // render out ships
   function renderShips(shipCoordinates, player) {
+    //
     let isSecondSize3Ship = false;
     // uses isSecondSize3Ship to add class "size-3-2" to identify the two separately
     shipCoordinates.forEach((coordinate) => {
@@ -64,6 +67,7 @@ export function DOM() {
   }
 
   function renderResultsOfAttack(
+    // this shouldnt check for classList contains because it shouldnt exist, it should be freshly rendered
     coordinates = [],
     className,
     player = "player1"
@@ -79,6 +83,7 @@ export function DOM() {
   }
 
   function clearResults(className, player) {
+    // loops twice through arrays, combine into one
     const elements = document.querySelectorAll(`#${player} ${className}`);
     for (let index = 0; index < elements.length; index++) {
       const currentElement = elements[index];
