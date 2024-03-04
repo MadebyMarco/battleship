@@ -42,7 +42,7 @@ export function UI(player1, player2) {
 
     let size = event.target.dataset.size;
     const selectedShip = storage.getCoordinates(1)[size];
-    storage.setSelectedShip(size);
+    storage.setSelectedShipSize(size);
 
     selectedShip.forEach((coordinate) => {
       document
@@ -65,12 +65,25 @@ export function UI(player1, player2) {
     const translateValue = +event.target.dataset["translateValue"];
     const selectedShip = document.querySelector(".selected");
     const size = selectedShip.dataset.size;
+    // maybe set/get to placeScreenCoordinates and once place is pressed, player1/2 coordinates = placeScreenCoordinates
     const playerCoordinates = storage.getCoordinates(1);
     const newShipCoordinates = Coordinate().translate(
       playerCoordinates[size],
       axis,
       translateValue
     );
+    let valid = true;
+    // ideally i would do this validation in 1. another func 2. on the player obj where I have a isNovel method
+    newShipCoordinates.forEach((coordinate) => {
+      const shipCoordinate = document.querySelector(
+        `.ship[data-coordinate = "${coordinate}" ]`
+      );
+      if (!shipCoordinate) return;
+      if (shipCoordinate.dataset.size != size) valid = false;
+      // ideally jump to next open square if the statement above is true
+    });
+    if (!valid) return;
+
     playerCoordinates[size] = newShipCoordinates;
     storage.setCoordinates(1, playerCoordinates);
     // below this line should be in dom
