@@ -77,6 +77,8 @@ export function Coordinate() {
     const translatedValueFirst = coordinateArray[0][axis] + difference;
     const translatedValueLast =
       coordinateArray[coordinateArray.length - 1][axis] + difference;
+
+    // error handling should be in a different place or
     if (
       translatedValueFirst < 0 ||
       translatedValueFirst > 9 ||
@@ -90,6 +92,40 @@ export function Coordinate() {
       array[axis] += difference;
     });
     return translatedArray;
+  }
+
+  function rotate(array) {
+    // coordinates are in ascending order
+    // [1, 2], [1, 3], [1, 4], [1, 5],
+    const size = array.length;
+    let axisToIncrement = 0;
+    let modifier = 1;
+    let startingCoordinate = array[size - 1];
+    const rotatedArray = [];
+    const vertical = isVertical(array);
+    // use is vertical to determine which axis or element to acccess from the two element array coordinate
+    // if vertical, access x coordinate(0 index), else access y coordinate (1 index)
+    if (!vertical) {
+      axisToIncrement = 1;
+      modifier = -1;
+      startingCoordinate = array[0];
+    }
+    // bow is the last element in the array
+    // since bow is front of ship we are decreasing from it
+    // idea is to to rotate around the bow. We will check for collisions, if collisions occur, show error and flash boat red?, if not, rotate
+    // if vertical, increase the 0 index values by 1 starting from the bows position, which does not change
+    // work down from end coordinate for the length of the array/ship arg
+    let newValue = startingCoordinate[axisToIncrement];
+    for (let i = 0; i < size; i++) {
+      if (!vertical) {
+        rotatedArray.push([startingCoordinate[0], newValue]);
+      } else {
+        rotatedArray.push([newValue, startingCoordinate[1]]);
+      }
+      newValue += modifier;
+    }
+    if (!vertical) rotatedArray.reverse();
+    return rotatedArray;
   }
 
   function objectTo3DArray(shipCoordinatesObject) {
@@ -110,5 +146,6 @@ export function Coordinate() {
     set,
     getDefault,
     objectTo3DArray,
+    rotate,
   };
 }
