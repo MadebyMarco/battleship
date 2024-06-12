@@ -27,7 +27,8 @@ export function Storage() {
   }
 
   function getSelectedShipSize() {
-    return JSON.parse(localStorage.getItem("selectedShip"));
+    const shipsize = localStorage.getItem("selectedShip");
+    return shipsize;
   }
 
   function getCoordinates(playerNumber) {
