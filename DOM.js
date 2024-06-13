@@ -1,4 +1,5 @@
 import { Coordinate } from "./coordinate.js";
+import { Storage } from "./storage.js";
 export function DOM() {
   function createElements(element, quantity = 10, callbackFn) {
     const nodeArray = [];
@@ -53,6 +54,12 @@ export function DOM() {
     return shipElements;
   }
 
+  function renderSelectedShip(coordinates, player) {
+    const shipElements = getShipElements(coordinates);
+    for (let i = 0; i < shipElements.length; i++) {
+      shipElements[i].classList.add("selected");
+    }
+  }
   // render out ships
   function renderShips(shipCoordinates, player) {
     //
@@ -142,6 +149,10 @@ export function DOM() {
     document.querySelector(renderTarget).append(gameboard);
   }
 
+  function removeGameboard(player) {
+    document.querySelector(`#${player}.gameboard`).remove();
+  }
+
   function renderControlsForPlacingShips(renderTarget = "main") {
     const main = document.querySelector(renderTarget);
     main.innerHTML += `
@@ -162,7 +173,7 @@ export function DOM() {
       <div class="rotate controls">
         <h2>Rotate</h2>
         <div class="buttons">
-        <button>🗘</button>
+        <button id="rotate">🗘</button>
         </div>
       </div>
       <div class="place">
@@ -196,5 +207,7 @@ export function DOM() {
     renderControlsForPlacingShips,
     renderGameboardForPlacingShips,
     renderShips,
+    removeGameboard,
+    renderSelectedShip,
   };
 }
