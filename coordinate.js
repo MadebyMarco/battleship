@@ -11,6 +11,7 @@ export function Coordinate() {
     return coordinate;
   }
 
+  // should only be array as param
   function getOrientation(elements) {
     let orientation = "horizontal";
     if (
@@ -24,6 +25,7 @@ export function Coordinate() {
     return orientation;
   }
 
+  //should be in dom
   function set(nodes, maxYAxis = 9) {
     let xAxis = 0;
     let yAxis = maxYAxis;
@@ -138,6 +140,30 @@ export function Coordinate() {
     ];
     return processedCoordinates;
   }
+
+  function isInBounds(array) {
+    const firstXCoordinate = array[0][0];
+    const lastXCoordinate = array[array.length - 1][0];
+
+    if (
+      firstXCoordinate < 0 ||
+      firstXCoordinate > 9 ||
+      lastXCoordinate < 0 ||
+      lastXCoordinate > 9
+    )
+      return false;
+    const firstYCoordinate = array[0][1];
+    const lastYCoordinate = array[array.length - 1][1];
+
+    if (
+      firstYCoordinate < 0 ||
+      firstYCoordinate > 9 ||
+      lastYCoordinate < 0 ||
+      lastYCoordinate > 9
+    )
+      return false;
+    return true;
+  }
   return {
     translate,
     isVertical,
@@ -147,5 +173,6 @@ export function Coordinate() {
     getDefault,
     objectTo3DArray,
     rotate,
+    isInBounds,
   };
 }
