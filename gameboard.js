@@ -1,4 +1,5 @@
 import { Ship } from "./ship.js";
+import { Coordinate } from "./coordinate.js";
 // cant use import with jest tests
 // const Ship = require("./ship");
 function Gameboard() {
@@ -17,7 +18,10 @@ function Gameboard() {
   }
 
   function getShip(coordinate) {
-    const shipIndex = getShipIndex(this.shipCoordinates, coordinate);
+    const shipIndex = Coordinate.getShipIndexInFleet(
+      this.shipCoordinates,
+      coordinate
+    );
     const ship = this.ships[shipIndex];
     return ship;
   }
@@ -31,6 +35,7 @@ function Gameboard() {
     return sunkShipsCoordinates;
   }
 
+  // should be in coordinate.js
   function sortCoordinates(coordinates) {
     // sets coordinates in ascending order
     const sortedCoordinates = [...coordinates];
@@ -52,7 +57,10 @@ function Gameboard() {
   }
   //determines which attacks are hits and misses, then sends the hit to the right ship or records the miss
   function receiveAttack(coordinate) {
-    const index = getShipIndex(this.shipCoordinates, coordinate);
+    const index = Coordinate().getShipIndexInFleet(
+      this.shipCoordinates,
+      coordinate
+    );
     if (index === false) {
       this.misses.push(coordinate);
       return "miss";
@@ -62,27 +70,6 @@ function Gameboard() {
     return "hit";
   }
 
-  function getShipIndex(shipCoordinates, coordinate) {
-    for (let shipIndex = 0; shipIndex < shipCoordinates.length; shipIndex++) {
-      //   // first loop will go over each COLLECTION of coordinates
-      //   //This index will be used to identify which ship will be hit.
-      for (
-        let coordinatesIndex = 0;
-        coordinatesIndex < shipCoordinates[shipIndex].length;
-        coordinatesIndex++
-      ) {
-        //     //Second loop checks each pair of coordinates and compares their values to target coordinate
-        const currentCoordinate = shipCoordinates[shipIndex][coordinatesIndex];
-        if (
-          currentCoordinate[0] == coordinate[0] &&
-          currentCoordinate[1] == coordinate[1]
-        ) {
-          return shipIndex;
-        }
-      }
-    }
-    return false;
-  }
   //reports whether all ships of one side have been sunk
   function areAllShipsSunk() {
     const sunkShips = this.ships.filter((ship) => ship.isSunk() == true);
@@ -95,7 +82,6 @@ function Gameboard() {
     misses,
     hits,
     placeShip,
-    getShipIndex,
     getShip,
     receiveAttack,
     areAllShipsSunk,

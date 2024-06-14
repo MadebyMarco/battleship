@@ -164,6 +164,29 @@ export function Coordinate() {
       return false;
     return true;
   }
+
+  function getShipIndexInFleet(fleet, coordinate) {
+    for (let shipIndex = 0; shipIndex < fleet.length; shipIndex++) {
+      if (getIndexOfArray(fleet[shipIndex], coordinate) >= 0) {
+        return shipIndex;
+      }
+    }
+    return false;
+  }
+
+  function getIndexOfArray(arrayWithArrays, targetArray) {
+    for (let index = 0; index < arrayWithArrays.length; index++) {
+      const currentCoordinate = arrayWithArrays[index];
+      if (currentCoordinate[0] != targetArray[0]) {
+        continue;
+      }
+      if (currentCoordinate[1] == targetArray[1]) {
+        return index;
+      }
+    }
+    return -1;
+  }
+
   return {
     translate,
     isVertical,
@@ -174,5 +197,6 @@ export function Coordinate() {
     objectTo3DArray,
     rotate,
     isInBounds,
+    getShipIndexInFleet,
   };
 }

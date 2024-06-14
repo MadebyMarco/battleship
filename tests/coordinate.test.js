@@ -55,3 +55,23 @@ test("Coordinate is in bounds", () => {
     ])
   ).toEqual(false);
 });
+
+test("Get index of a ship from in fleet", () => {
+  const testFleet = [
+    [
+      [1, 5],
+      [1, 6],
+      [1, 7],
+      [1, 8],
+    ],
+    [
+      [2, 6],
+      [3, 6],
+      [4, 6],
+      [5, 6],
+    ],
+  ];
+  expect(Coordinate().getShipIndexInFleet(testFleet, [1, 6])).toEqual(0);
+
+  expect(Coordinate().getShipIndexInFleet(testFleet, [3, 6])).toEqual(1);
+});
