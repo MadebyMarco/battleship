@@ -75,3 +75,53 @@ test("Get index of a ship from in fleet", () => {
 
   expect(Coordinate().getShipIndexInFleet(testFleet, [3, 6])).toEqual(1);
 });
+
+test("Collision check", () => {
+  const testFleetObject = {
+    "size-5": [
+      [1, 5],
+      [1, 6],
+      [1, 7],
+      [1, 8],
+    ],
+    "size-4": [
+      [1, 1],
+      [1, 2],
+      [1, 3],
+      [1, 4],
+    ],
+    "size-3": [
+      [1, 4],
+      [2, 4],
+      [3, 4],
+      [4, 4],
+    ],
+  };
+  const testShipArray1 = [
+    [1, 4],
+    [2, 4],
+    [3, 4],
+    [4, 4],
+  ];
+
+  const testShipArray2 = [
+    [1, 5],
+    [1, 6],
+    [1, 7],
+    [1, 8],
+  ];
+
+  const collision1 = Coordinate().isColliding(
+    testFleetObject,
+    testShipArray1,
+    "size-3"
+  );
+  const collision2 = Coordinate().isColliding(
+    testFleetObject,
+    testShipArray2,
+    "size-3"
+  );
+
+  expect(collision1).toBe(true);
+  expect(collision2).toBe(false);
+});

@@ -174,6 +174,20 @@ export function Coordinate() {
     return false;
   }
 
+  function isColliding(fleetObject, targetShipArray, targetSize) {
+    // removing ship prevents collision check on itself
+    fleetObject[targetSize] = [];
+    const fleetArray = Coordinate().objectTo3DArray(fleetObject);
+    for (let i = 0; i < targetShipArray.length; i++) {
+      const index = Coordinate().getShipIndexInFleet(
+        fleetArray,
+        targetShipArray[i]
+      );
+      if (index != false) return true;
+    }
+    return false;
+  }
+
   function getIndexOfArray(arrayWithArrays, targetArray) {
     for (let index = 0; index < arrayWithArrays.length; index++) {
       const currentCoordinate = arrayWithArrays[index];
@@ -198,5 +212,6 @@ export function Coordinate() {
     rotate,
     isInBounds,
     getShipIndexInFleet,
+    isColliding,
   };
 }
