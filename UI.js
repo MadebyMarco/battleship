@@ -36,19 +36,21 @@ export function UI(player1, player2) {
     // selectShip should be a dom function that removes and places new ships using size arg
     // selectShipFromEvent should be a function that verifies its a ship, and retrieves the dataset size to then use into selectShip
     if (!event.target.classList.contains("ship")) return;
-    document
-      .querySelectorAll(".selected")
-      .forEach((ship) => ship.classList.remove("selected"));
+    //document
+    //.querySelectorAll(".selected")
+    //.forEach((ship) => ship.classList.remove("selected"));
 
     let size = event.target.dataset.size;
     const selectedShip = storage.getCoordinates(1)[size];
     storage.setSelectedShipSize(size);
+    //should have storage func outside of this
 
     selectedShip.forEach((coordinate) => {
       document
         .querySelector(`.ship[data-coordinate="${coordinate}"]`)
         .classList.add("selected");
     });
+    console.log("ship selected");
 
     // /////////////////////////
 
@@ -56,11 +58,34 @@ export function UI(player1, player2) {
     // also should be in dom
     // and make getSelectedShipSize that would be good/ wrote would be good but not for what so now im not sure what i wanted it for
   }
+  function rotateShip(event) {
+    if (event.target != document.getElementById("rotate")) return;
+    let size = storage.getSelectedShipSize();
+    const playerShip = storage.getCoordinates(1)[size];
+    const rotatedCoordinates = Coordinate().rotate(playerShip);
+    console.log(playerShip, rotatedCoordinates);
+    if (!Coordinate().isInBounds(rotatedCoordinates)) return;
+    // needs collision check
+    const fleetObject = storage.getCoordinates(1);
+    // removing ship prevents collision check on itself
+    fleetObject[size] = [];
+    console.log(fleetObject);
+    const fleetArray = Coordinate().objectTo3DArray(fleetObject);
+    for (let i = 0; i < rotatedCoordinates.length; i++) {
+      const index = Coordinate().getShipIndexInFleet(
+        fleetArray,
+        rotatedCoordinates[i]
+      );
+      if (index != false) return;
+    }
+    const newPlayerCoordinates = storage.getCoordinates(1);
+    newPlayerCoordinates[size] = rotatedCoordinates;
+    storage.setCoordinates(1, newPlayerCoordinates);
+  }
 
   function translateShip(event) {
     // take size, get gameboard coordinates of that size, transform coordinates, set gameboard coordinates of that size, rerender selected ships new position,
-    if (!document.querySelector(".selected")) return;
-    if (!event.target.dataset.axis === undefined) return;
+    if (event.target.dataset["axis"] == undefined) return;
     const axis = +event.target.dataset.axis;
     const translateValue = +event.target.dataset["translateValue"];
     const selectedShip = document.querySelector(".selected");
@@ -73,7 +98,8 @@ export function UI(player1, player2) {
       translateValue
     );
     let valid = true;
-    // ideally i would do this validation in 1. another func 2. on the player obj where I have a isNovel method
+    // ideally i would do this validation in 1. another func 2. on the player obj where I have
+    // shouldnt BE HERE
     newShipCoordinates.forEach((coordinate) => {
       const shipCoordinate = document.querySelector(
         `.ship[data-coordinate = "${coordinate}" ]`
@@ -86,24 +112,45 @@ export function UI(player1, player2) {
 
     playerCoordinates[size] = newShipCoordinates;
     storage.setCoordinates(1, playerCoordinates);
+    console.log("ship translated");
     // below this line should be in dom
-    document
-      .querySelectorAll(".ship")
-      .forEach((ship) =>
-        ship.classList.remove("ship", "vertical", "stern", "bow", "selected")
-      );
-    newShipCoordinates.forEach((coordinate) =>
-      document
-        .querySelector(`div[data-coordinate = "${coordinate}" ]`)
-        .classList.add("selected")
-    );
-    dom.renderShips(Coordinate().objectTo3DArray(playerCoordinates), "player1");
+    // document
+    //   .querySelectorAll(".ship")
+    //   .forEach((ship) =>
+    //     ship.classList.remove("ship", "vertical", "stern", "bow", "selected")
+    //   );
+    // newShipCoordinates.forEach((coordinate) =>
+    //   document
+    //     .querySelector(`div[data-coordinate = "${coordinate}" ]`)
+    //     .classList.add("selected")
+    // );
+    // dom.renderShips(Coordinate().objectTo3DArray(playerCoordinates), "player1");
   }
-
+  let state = "place ships";
+  let playerWhoIsPlacing = "player1";
+  // reassign playerWhoIsPlacing once place ships button is pressed
+  // if place ships button is pressed and playerwhoIsplacing is player 2, start game :)
+  // ui function runs once on load
+  console.log("UI", state);
+  // handle drag by hovering over coordinate, making a using middle as point, rendering out coordinates in bound over the gameboard,
   function handleClick(event) {
     placeShipsScreen(event);
-    selectShip(event);
-    translateShip(event);
+    if (state == "place ships") {
+      // funcs dont work because selected ship is not being rerendered
+      selectShip(event);
+      translateShip(event);
+      rotateShip(event);
+      dom.removeGameboard("player1");
+      dom.renderGameboardForPlacingShips("main", "player1");
+      const processedCoordinates = Coordinate().objectTo3DArray(
+        storage.getCoordinates(1)
+      );
+      dom.renderShips(processedCoordinates, "player1");
+      dom.renderSelectedShip(
+        storage.getCoordinates(1)[storage.getSelectedShipSize()],
+        "player1"
+      );
+    }
     // maybe get the players move on the button, send that to renderShip, rerender the ships but send the new coordinates with the input from the user, so if the coordinates are 0,1 0,2 and he hits x up, put 1,1 and 1,2 into placeShips
     if (player2.ai) {
       vsComputer(event);
