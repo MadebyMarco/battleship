@@ -88,8 +88,7 @@ export function UI(player1, player2) {
     if (event.target.dataset["axis"] == undefined) return;
     const axis = +event.target.dataset.axis;
     const translateValue = +event.target.dataset["translateValue"];
-    const selectedShip = document.querySelector(".selected");
-    const size = selectedShip.dataset.size;
+    const size = storage.getSelectedShipSize();
     // maybe set/get to placeScreenCoordinates and once place is pressed, player1/2 coordinates = placeScreenCoordinates
     const playerCoordinates = storage.getCoordinates(1);
     const newShipCoordinates = Coordinate().translate(
@@ -97,34 +96,16 @@ export function UI(player1, player2) {
       axis,
       translateValue
     );
-    let valid = true;
-    // ideally i would do this validation in 1. another func 2. on the player obj where I have
-    // shouldnt BE HERE
-    newShipCoordinates.forEach((coordinate) => {
-      const shipCoordinate = document.querySelector(
-        `.ship[data-coordinate = "${coordinate}" ]`
-      );
-      if (!shipCoordinate) return;
-      if (shipCoordinate.dataset.size != size) valid = false;
-      // ideally jump to next open square if the statement above is true
-    });
-    if (!valid) return;
-
+    const fleetObject = storage.getCoordinates(1);
+    const collision = Coordinate().isColliding(
+      fleetObject,
+      newShipCoordinates,
+      size
+    );
+    if (collision) return;
     playerCoordinates[size] = newShipCoordinates;
     storage.setCoordinates(1, playerCoordinates);
     console.log("ship translated");
-    // below this line should be in dom
-    // document
-    //   .querySelectorAll(".ship")
-    //   .forEach((ship) =>
-    //     ship.classList.remove("ship", "vertical", "stern", "bow", "selected")
-    //   );
-    // newShipCoordinates.forEach((coordinate) =>
-    //   document
-    //     .querySelector(`div[data-coordinate = "${coordinate}" ]`)
-    //     .classList.add("selected")
-    // );
-    // dom.renderShips(Coordinate().objectTo3DArray(playerCoordinates), "player1");
   }
   let state = "place ships";
   let playerWhoIsPlacing = "player1";
