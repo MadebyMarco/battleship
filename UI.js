@@ -18,21 +18,21 @@ export function UI(player1, player2) {
   // click on rotate -> use the first coordinate as an anchor, if the ship is vertical, change coordinates from change in y to change in x relative to anchors position, if the ship is horizontal, change coordinates from change in x to change in y relative to anchors position.
   // Need to create these x buttons, y buttons, rotate button, place button
 
-  function placeShipsScreen(event) {
+  function placeShipsScreen(event, player) {
     if (!event.target.classList.contains("startButton")) return;
     event.target.remove();
     const renderTarget = "main";
     document.querySelector(renderTarget).classList.add("place-ships-screen");
-    storage.setCoordinates("player1", Coordinate().getDefault());
+    storage.setCoordinates(player, Coordinate().getDefault());
     dom.renderControlsForPlacingShips(renderTarget);
-    dom.renderGameboardForPlacingShips(renderTarget, "player1");
+    dom.renderGameboardForPlacingShips(renderTarget, player);
     const processedCoordinates = Coordinate().objectTo3DArray(
       storage.getCoordinates("player1")
     );
     dom.renderShips(processedCoordinates, "player1");
   }
 
-  function selectShip(event) {
+  function selectShip(event, player) {
     // selectShip should be a dom function that removes and places new ships using size arg
     // selectShipFromEvent should be a function that verifies its a ship, and retrieves the dataset size to then use into selectShip
     if (!event.target.classList.contains("ship")) return;
@@ -41,7 +41,7 @@ export function UI(player1, player2) {
     //.forEach((ship) => ship.classList.remove("selected"));
 
     let size = event.target.dataset.size;
-    const selectedShip = storage.getCoordinates("player1")[size];
+    const selectedShip = storage.getCoordinates(player)[size];
     storage.setSelectedShipSize(size);
     //should have storage func outside of this
 
@@ -58,15 +58,15 @@ export function UI(player1, player2) {
     // also should be in dom
     // and make getSelectedShipSize that would be good/ wrote would be good but not for what so now im not sure what i wanted it for
   }
-  function rotateShip(event) {
+  function rotateShip(event, player) {
     if (event.target != document.getElementById("rotate")) return;
     let size = storage.getSelectedShipSize();
-    const playerShip = storage.getCoordinates("player1")[size];
+    const playerShip = storage.getCoordinates(player)[size];
     const rotatedCoordinates = Coordinate().rotate(playerShip);
     console.log(playerShip, rotatedCoordinates);
     if (!Coordinate().isInBounds(rotatedCoordinates)) return;
     // needs collision check
-    const fleetObject = storage.getCoordinates("player1");
+    const fleetObject = storage.getCoordinates(player);
     // removing ship prevents collision check on itself
     fleetObject[size] = [];
     console.log(fleetObject);
@@ -78,25 +78,25 @@ export function UI(player1, player2) {
       );
       if (index != false) return;
     }
-    const newPlayerCoordinates = storage.getCoordinates("player1");
+    const newPlayerCoordinates = storage.getCoordinates(player);
     newPlayerCoordinates[size] = rotatedCoordinates;
-    storage.setCoordinates("player1", newPlayerCoordinates);
+    storage.setCoordinates(player, newPlayerCoordinates);
   }
 
-  function translateShip(event) {
+  function translateShip(event, player) {
     // take size, get gameboard coordinates of that size, transform coordinates, set gameboard coordinates of that size, rerender selected ships new position,
     if (event.target.dataset["axis"] == undefined) return;
     const axis = +event.target.dataset.axis;
     const translateValue = +event.target.dataset["translateValue"];
     const size = storage.getSelectedShipSize();
     // maybe set/get to placeScreenCoordinates and once place is pressed, player1/2 coordinates = placeScreenCoordinates
-    const playerCoordinates = storage.getCoordinates("player1");
+    const playerCoordinates = storage.getCoordinates(player);
     const newShipCoordinates = Coordinate().translate(
       playerCoordinates[size],
       axis,
       translateValue
     );
-    const fleetObject = storage.getCoordinates("player1");
+    const fleetObject = storage.getCoordinates(player);
     const collision = Coordinate().isColliding(
       fleetObject,
       newShipCoordinates,
@@ -104,7 +104,7 @@ export function UI(player1, player2) {
     );
     if (collision) return;
     playerCoordinates[size] = newShipCoordinates;
-    storage.setCoordinates("player1", playerCoordinates);
+    storage.setCoordinates(player, playerCoordinates);
     console.log("ship translated");
   }
   let state = "place ships";
@@ -117,10 +117,9 @@ export function UI(player1, player2) {
   function handleClick(event) {
     placeShipsScreen(event);
     if (state == "place ships") {
-      // funcs dont work because selected ship is not being rerendered
-      selectShip(event);
-      translateShip(event);
-      rotateShip(event);
+      selectShip(event, playerWhoIsPlacing);
+      translateShip(event, playerWhoIsPlacing);
+      rotateShip(event, playerWhoIsPlacing);
       dom.removeGameboard(playerWhoIsPlacing);
       dom.renderGameboardForPlacingShips("main", playerWhoIsPlacing);
       const processedCoordinates = Coordinate().objectTo3DArray(
@@ -128,7 +127,9 @@ export function UI(player1, player2) {
       );
       dom.renderShips(processedCoordinates, playerWhoIsPlacing);
       dom.renderSelectedShip(
-        storage.getCoordinates("player1")[storage.getSelectedShipSize()],
+        storage.getCoordinates(playerWhoIsPlacing)[
+          storage.getSelectedShipSize()
+        ],
         playerWhoIsPlacing
       );
     }
