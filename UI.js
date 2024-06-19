@@ -235,12 +235,17 @@ export function UI(player1, player2) {
     return coordinate;
   }
 
+  function startGame() {
+    // remove placeships screen
+    // set player gameboards
+  }
   function placeShipsButton(event, player) {
     if (event.target.id != "placeShipsButton") return;
-    player.gameboard.shipCoordinates = Coordinate().objectTo3DArray(
-      storage.getCoordinates(player)
-    );
-    if (player == "player1") player = "player2";
-    console.log(playerWhoIsPlacing);
+    if (player == "player1") {
+      playerWhoIsPlacing = "player2";
+      return;
+    }
+    startGame();
+    console.log(player);
   }
 }
