@@ -27,9 +27,9 @@ export function UI(player1, player2) {
     dom.renderControlsForPlacingShips(renderTarget);
     dom.renderGameboardForPlacingShips(renderTarget, player);
     const processedCoordinates = Coordinate().objectTo3DArray(
-      storage.getCoordinates("player1")
+      storage.getCoordinates(player)
     );
-    dom.renderShips(processedCoordinates, "player1");
+    dom.renderShips(processedCoordinates, player);
   }
 
   function selectShip(event, player) {
@@ -70,14 +70,12 @@ export function UI(player1, player2) {
     // removing ship prevents collision check on itself
     fleetObject[size] = [];
     console.log(fleetObject);
-    const fleetArray = Coordinate().objectTo3DArray(fleetObject);
-    for (let i = 0; i < rotatedCoordinates.length; i++) {
-      const index = Coordinate().getShipIndexInFleet(
-        fleetArray,
-        rotatedCoordinates[i]
-      );
-      if (index != false) return;
-    }
+    const collision = Coordinate().isColliding(
+      fleetObject,
+      rotatedCoordinates,
+      size
+    );
+    if (collision) return;
     const newPlayerCoordinates = storage.getCoordinates(player);
     newPlayerCoordinates[size] = rotatedCoordinates;
     storage.setCoordinates(player, newPlayerCoordinates);
@@ -115,7 +113,7 @@ export function UI(player1, player2) {
   console.log("UI", state);
   // handle drag by hovering over coordinate, making a using middle as point, rendering out coordinates in bound over the gameboard,
   function handleClick(event) {
-    placeShipsScreen(event);
+    placeShipsScreen(event, playerWhoIsPlacing);
     if (state == "place ships") {
       selectShip(event, playerWhoIsPlacing);
       translateShip(event, playerWhoIsPlacing);
