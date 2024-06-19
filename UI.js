@@ -18,14 +18,21 @@ export function UI(player1, player2) {
   // click on rotate -> use the first coordinate as an anchor, if the ship is vertical, change coordinates from change in y to change in x relative to anchors position, if the ship is horizontal, change coordinates from change in x to change in y relative to anchors position.
   // Need to create these x buttons, y buttons, rotate button, place button
 
-  function placeShipsScreen(event, player) {
-    if (!event.target.classList.contains("startButton")) return;
+  function startButton(event) {
+    if (event.target.id != "startButton") return;
     event.target.remove();
+    storage.setCoordinates("player1", Coordinate().getDefault());
+    storage.setCoordinates("player2", Coordinate().getDefault());
+    placeShipsScreen("player1");
+    state = "place ships";
+  }
+
+  function placeShipsScreen(player) {
     const renderTarget = "main";
     document.querySelector(renderTarget).classList.add("place-ships-screen");
-    storage.setCoordinates(player, Coordinate().getDefault());
     dom.renderControlsForPlacingShips(renderTarget);
     dom.renderGameboardForPlacingShips(renderTarget, player);
+    console.log(player);
     const processedCoordinates = Coordinate().objectTo3DArray(
       storage.getCoordinates(player)
     );
@@ -105,7 +112,7 @@ export function UI(player1, player2) {
     storage.setCoordinates(player, playerCoordinates);
     console.log("ship translated");
   }
-  let state = "place ships";
+  let state = "start game";
   let playerWhoIsPlacing = "player1";
   // reassign playerWhoIsPlacing once place ships button is pressed
   // if place ships button is pressed and playerwhoIsplacing is player 2, start game :)
@@ -113,12 +120,13 @@ export function UI(player1, player2) {
   console.log("UI", state);
   // handle drag by hovering over coordinate, making a using middle as point, rendering out coordinates in bound over the gameboard,
   function handleClick(event) {
-    placeShipsScreen(event, playerWhoIsPlacing);
+    startButton(event);
     if (state == "place ships") {
       selectShip(event, playerWhoIsPlacing);
       translateShip(event, playerWhoIsPlacing);
       rotateShip(event, playerWhoIsPlacing);
       dom.removeGameboard(playerWhoIsPlacing);
+      placeShipsButton(event, playerWhoIsPlacing);
       dom.renderGameboardForPlacingShips("main", playerWhoIsPlacing);
       const processedCoordinates = Coordinate().objectTo3DArray(
         storage.getCoordinates(playerWhoIsPlacing)
@@ -225,5 +233,14 @@ export function UI(player1, player2) {
     const dataCoordinate = event.target.dataset.coordinate;
     const coordinate = [+dataCoordinate[0], +dataCoordinate[2]];
     return coordinate;
+  }
+
+  function placeShipsButton(event, player) {
+    if (event.target.id != "placeShipsButton") return;
+    player.gameboard.shipCoordinates = Coordinate().objectTo3DArray(
+      storage.getCoordinates(player)
+    );
+    if (player == "player1") player = "player2";
+    console.log(playerWhoIsPlacing);
   }
 }
