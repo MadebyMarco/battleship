@@ -42,7 +42,10 @@ export function DOM() {
   // stern: back of boat
   // bow: front of boat
   function placeShip(elements, isSecondSize3Ship = false) {
-    let orientation = Coordinate().getOrientation(elements);
+    let orientation = Coordinate().getOrientation([
+      elements[0].id.slice(-3),
+      elements[1].id.slice(-3),
+    ]);
     let shipSize = "size-" + elements.length;
     if (isSecondSize3Ship && elements.length == 3) shipSize = "size-3-2";
     for (let index = 0; index < elements.length; index++) {

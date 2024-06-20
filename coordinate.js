@@ -12,9 +12,9 @@ export function Coordinate() {
   }
 
   // should only be array as param
-  function getOrientation(shipCoordinate) {
+  function getOrientation(shipCoordinates) {
     let orientation = "horizontal";
-    if (isVertical(shipCoordinate)) {
+    if (isVertical(shipCoordinates)) {
       orientation = "vertical";
     }
     return orientation;
