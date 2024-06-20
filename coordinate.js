@@ -117,6 +117,9 @@ export function Coordinate() {
       shipCoordinatesObject["size-3-2"],
       shipCoordinatesObject["size-2"],
     ];
+    for (let i = 0; i < processedCoordinates.length; i++) {
+      if (!Array.isArray(processedCoordinates[i])) processedCoordinates[i] = [];
+    }
     return processedCoordinates;
   }
 
@@ -162,7 +165,7 @@ export function Coordinate() {
         fleetArray,
         targetShipArray[i]
       );
-      if (index != false) return true;
+      if (index !== false) return true;
     }
     return false;
   }
