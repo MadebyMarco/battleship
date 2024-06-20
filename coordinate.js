@@ -12,9 +12,9 @@ export function Coordinate() {
   }
 
   // should only be array as param
-  function getOrientation(elements) {
+  function getOrientation(shipCoordinate) {
     let orientation = "horizontal";
-    if (isVertical([elements[0].id.slice(-3), elements[1].id.slice(-3)])) {
+    if (isVertical(shipCoordinate)) {
       orientation = "vertical";
     }
     return orientation;
