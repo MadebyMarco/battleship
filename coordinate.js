@@ -14,31 +14,10 @@ export function Coordinate() {
   // should only be array as param
   function getOrientation(elements) {
     let orientation = "horizontal";
-    if (
-      isVertical([
-        elements[0].dataset.coordinate,
-        elements[1].dataset.coordinate,
-      ])
-    ) {
+    if (isVertical([elements[0].id.slice(-3), elements[1].id.slice(-3)])) {
       orientation = "vertical";
     }
     return orientation;
-  }
-
-  //should be in dom
-  function set(nodes, maxYAxis = 9) {
-    let xAxis = 0;
-    let yAxis = maxYAxis;
-    const coordinateNodes = [...nodes];
-    coordinateNodes.forEach((node) => {
-      if (xAxis > maxYAxis) {
-        xAxis = 0;
-        yAxis = yAxis - 1;
-      }
-      node.dataset.coordinate = [xAxis, yAxis];
-      xAxis++;
-    });
-    return coordinateNodes;
   }
 
   function getDefault() {
@@ -206,7 +185,6 @@ export function Coordinate() {
     isVertical,
     toArray,
     getOrientation,
-    set,
     getDefault,
     objectTo3DArray,
     rotate,
