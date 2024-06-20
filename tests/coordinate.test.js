@@ -94,7 +94,6 @@ test("Collision check", () => {
       [1, 4],
       [2, 4],
       [3, 4],
-      [4, 4],
     ],
   };
   const testShipArray1 = [
@@ -105,16 +104,15 @@ test("Collision check", () => {
   ];
 
   const testShipArray2 = [
-    [1, 5],
-    [1, 6],
-    [1, 7],
-    [1, 8],
+    [2, 4],
+    [3, 4],
+    [4, 4],
   ];
 
   const collision1 = Coordinate().isColliding(
     testFleetObject,
     testShipArray1,
-    "size-3"
+    "size-4"
   );
   const collision2 = Coordinate().isColliding(
     testFleetObject,
@@ -122,6 +120,28 @@ test("Collision check", () => {
     "size-3"
   );
 
+  const testFleetObjReal = {
+    "size-4": [
+      [1, 1],
+      [1, 2],
+      [1, 3],
+      [1, 4],
+    ],
+    "size-5": [
+      [0, 1],
+      [0, 2],
+      [0, 3],
+      [0, 4],
+      [0, 5],
+    ],
+  };
+  const translated = Coordinate().translate(testFleetObjReal["size-4"], 0, -1);
+  const collisionReal = Coordinate().isColliding(
+    testFleetObjReal,
+    translated,
+    "size-4"
+  );
   expect(collision1).toBe(true);
   expect(collision2).toBe(false);
+  expect(collisionReal).toBe(true);
 });
