@@ -1,5 +1,4 @@
 import { Coordinate } from "./coordinate.js";
-import { Storage } from "./storage.js";
 export function DOM() {
   function createElements(element, quantity = 10, callbackFn) {
     const nodeArray = [];
@@ -11,9 +10,24 @@ export function DOM() {
     return nodeArray;
   }
 
-  function createGameboard(callbackFn) {
+  function setCoordinates(nodes, maxYAxis = 9, player) {
+    let xAxis = 0;
+    let yAxis = maxYAxis;
+    const coordinateNodes = [...nodes];
+    coordinateNodes.forEach((node) => {
+      if (xAxis > maxYAxis) {
+        xAxis = 0;
+        yAxis = yAxis - 1;
+      }
+      node.id = player + "-" + [xAxis, yAxis];
+      xAxis++;
+    });
+    return coordinateNodes;
+  }
+
+  function createGameboard(callbackFn, player = "player1") {
     const gameboardNodes = createElements("div", 100, callbackFn);
-    const coordinateNodes = Coordinate().set(gameboardNodes);
+    const coordinateNodes = setCoordinates(gameboardNodes, 9, player);
     return coordinateNodes;
   }
 
@@ -42,13 +56,15 @@ export function DOM() {
     }
   }
 
+  function getShipElement(coordinate, player) {
+    return document.getElementById(player + "-" + coordinate);
+  }
+
   function getShipElements(coordinates, player) {
     const shipElements = [];
     for (let index = 0; index < coordinates.length; index++) {
       const currentCoordinate = coordinates[index];
-      const currentShipElement = document.querySelector(
-        `#${player} div[data-coordinate='${currentCoordinate}']`
-      );
+      const currentShipElement = getShipElement(currentCoordinate, player);
       shipElements.push(currentShipElement);
     }
     return shipElements;
@@ -81,9 +97,7 @@ export function DOM() {
   ) {
     for (let index = 0; index < coordinates.length; index++) {
       const currentCoordinate = coordinates[index];
-      const square = document.querySelector(
-        `#${player} div[data-coordinate='${currentCoordinate}']`
-      );
+      const square = getShipElement(currentCoordinate, player);
       if (!square.classList.contains(`${className}`))
         square.classList.add(`${className}`);
     }
@@ -145,7 +159,7 @@ export function DOM() {
     const gameboard = document.createElement("div");
     gameboard.classList.add("gameboard");
     gameboard.id = player;
-    gameboard.append(...createGameboard(gameboardSettings));
+    gameboard.append(...createGameboard(gameboardSettings, player));
     document.querySelector(renderTarget).append(gameboard);
   }
 
