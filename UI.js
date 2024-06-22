@@ -40,31 +40,14 @@ export function UI(player1, player2) {
   }
 
   function selectShip(event, player) {
-    // selectShip should be a dom function that removes and places new ships using size arg
-    // selectShipFromEvent should be a function that verifies its a ship, and retrieves the dataset size to then use into selectShip
     if (!event.target.classList.contains("ship")) return;
-    //document
-    //.querySelectorAll(".selected")
-    //.forEach((ship) => ship.classList.remove("selected"));
-
     let size = event.target.dataset.size;
     const selectedShip = storage.getCoordinates(player)[size];
     storage.setSelectedShipSize(size);
-    //should have storage func outside of this
-
-    selectedShip.forEach((coordinate) => {
-      document
-        .querySelector(`.ship[data-coordinate="${coordinate}"]`)
-        .classList.add("selected");
-    });
+    dom.renderSelectedShip(selectedShip, player);
     console.log("ship selected");
-
-    // /////////////////////////
-
-    // this should be two functions, one to remove and one to add
-    // also should be in dom
-    // and make getSelectedShipSize that would be good/ wrote would be good but not for what so now im not sure what i wanted it for
   }
+
   function rotateShip(event, player) {
     if (event.target != document.getElementById("rotate")) return;
     let size = storage.getSelectedShipSize();
@@ -72,11 +55,7 @@ export function UI(player1, player2) {
     const rotatedCoordinates = Coordinate().rotate(playerShip);
     console.log(playerShip, rotatedCoordinates);
     if (!Coordinate().isInBounds(rotatedCoordinates)) return;
-    // needs collision check
     const fleetObject = storage.getCoordinates(player);
-    // removing ship prevents collision check on itself
-    fleetObject[size] = [];
-    console.log(fleetObject);
     const collision = Coordinate().isColliding(
       fleetObject,
       rotatedCoordinates,
@@ -112,12 +91,12 @@ export function UI(player1, player2) {
     storage.setCoordinates(player, playerCoordinates);
     console.log("ship translated");
   }
+
   let state = "start game";
   let playerWhoIsPlacing = "player1";
   // reassign playerWhoIsPlacing once place ships button is pressed
   // if place ships button is pressed and playerwhoIsplacing is player 2, start game :)
   // ui function runs once on load
-  console.log("UI", state);
   // handle drag by hovering over coordinate, making a using middle as point, rendering out coordinates in bound over the gameboard,
   function handleClick(event) {
     startButton(event);
@@ -139,21 +118,16 @@ export function UI(player1, player2) {
         playerWhoIsPlacing
       );
     }
-    // maybe get the players move on the button, send that to renderShip, rerender the ships but send the new coordinates with the input from the user, so if the coordinates are 0,1 0,2 and he hits x up, put 1,1 and 1,2 into placeShips
-    if (player2.ai) {
-      vsComputer(event);
-      return;
+    if (state == "game is live") {
+      if (player2.ai) {
+        vsComputer(event);
+        return;
+      }
+      vsPlayer(event);
     }
-    vsPlayer(event);
   }
 
   function vsPlayer(event) {
-    // if click on square and game is not over
-    // if player1 turns true
-    // get coordinates of attack from square
-    // receive attack
-    // display misses or attack
-    //check if game is over
     if (!eventValidity(event)) return;
     console.log("event valid");
 
@@ -176,7 +150,7 @@ export function UI(player1, player2) {
     if (!eventValidity(event)) return;
     console.log("event valid");
 
-    const coordinate = Coordinate().toArray(event.target.dataset.coordinate);
+    const coordinate = Coordinate().toArray(event.target.id.slice(-3));
     if (!coordinate) return;
     console.log("coordinate valid");
 
@@ -230,7 +204,7 @@ export function UI(player1, player2) {
   }
 
   function getCoordinate(event) {
-    const dataCoordinate = event.target.dataset.coordinate;
+    const dataCoordinate = event.target.id.slice(-3);
     const coordinate = [+dataCoordinate[0], +dataCoordinate[2]];
     return coordinate;
   }
