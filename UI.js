@@ -10,13 +10,11 @@ export function UI(player1, player2) {
   document.addEventListener("click", handleClick);
 
   document.querySelector(".ai-slider").addEventListener("click", () => {
+    player2.ai ? (player2.ai = false) : (player2.ai = true);
+    console.log(player2.ai);
     document.querySelector(".ai-slider").classList.toggle("off");
     document.querySelector(".slider-circle").classList.toggle("off");
   });
-  // todo
-  // click on arrow -> change x or y value depending on the arrow direction
-  // click on rotate -> use the first coordinate as an anchor, if the ship is vertical, change coordinates from change in y to change in x relative to anchors position, if the ship is horizontal, change coordinates from change in x to change in y relative to anchors position.
-  // Need to create these x buttons, y buttons, rotate button, place button
 
   function startButton(event) {
     if (event.target.id != "startButton") return;
@@ -29,7 +27,6 @@ export function UI(player1, player2) {
 
   function placeShipsScreen(player) {
     const renderTarget = "main";
-    document.querySelector(renderTarget).classList.add("place-ships-screen");
     dom.renderControlsForPlacingShips(renderTarget);
     dom.renderGameboardForPlacingShips(renderTarget, player);
     console.log(player);
@@ -73,7 +70,6 @@ export function UI(player1, player2) {
     const axis = +event.target.dataset.axis;
     const translateValue = +event.target.dataset["translateValue"];
     const size = storage.getSelectedShipSize();
-    // maybe set/get to placeScreenCoordinates and once place is pressed, player1/2 coordinates = placeScreenCoordinates
     const playerCoordinates = storage.getCoordinates(player);
     const newShipCoordinates = Coordinate().translate(
       playerCoordinates[size],
@@ -94,10 +90,7 @@ export function UI(player1, player2) {
 
   let state = "start game";
   let playerWhoIsPlacing = "player1";
-  // reassign playerWhoIsPlacing once place ships button is pressed
-  // if place ships button is pressed and playerwhoIsplacing is player 2, start game :)
-  // ui function runs once on load
-  // handle drag by hovering over coordinate, making a using middle as point, rendering out coordinates in bound over the gameboard,
+
   function handleClick(event) {
     startButton(event);
     if (state == "place ships") {
@@ -211,6 +204,8 @@ export function UI(player1, player2) {
 
   function startGame() {
     // remove placeships screen
+    dom.removeGameboard("player1");
+
     // set player gameboards
   }
   function placeShipsButton(event, player) {
