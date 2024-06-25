@@ -1,11 +1,7 @@
-import { DOM } from "./DOM.js";
-import { Game } from "./game.js";
-// import { Player } from "./player";
+import { Player } from "./player.js";
 // import { Ship } from "./ship";
 import { UI } from "./UI.js";
 
-const game = Game();
-const dom = DOM();
-game.player2.ai = true;
+const [player1, player2] = [Player(), Player()];
 // dom.initializeGame();
-UI(game.player1, game.player2);
+UI(player1, player2);
