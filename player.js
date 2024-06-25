@@ -2,7 +2,10 @@
 //create property called turn to set to false or true
 //make a player not capable of making the same move twice
 // make an ai that can attack the other gameboard
+
+import { Gameboard } from "./gameboard.js";
 export function Player() {
+  const gameboard = Gameboard();
   let turn = false;
 
   const moves = [];
@@ -20,7 +23,9 @@ export function Player() {
     });
     return novel;
   }
-
+  // todo:
+  // once gameboard is imported, check if last move was a hit, if it was, hit the 4 adjacent squares, if last two were hits, find out if vertical, continue in provided direction,
+  // some way for ai to know it sunk a ship
   function getAttack() {
     let isNovel = false;
     let maxTurns = 10;
@@ -32,7 +37,7 @@ export function Player() {
     return "No move in 10 tries";
   }
 
-  return { turn, moves, getAttack, isNovelMove };
+  return { turn, moves, getAttack, isNovelMove, gameboard };
 }
 
 // module.exports = Player; uncomment for tests
