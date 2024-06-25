@@ -83,5 +83,5 @@ export function Game() {
     return false;
   }
 
-  return { loop, loopAgainstComputer, player1, player2 };
+  return { loop, loopAgainstComputer };
 }
