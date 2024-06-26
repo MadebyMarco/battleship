@@ -7,6 +7,7 @@ import { Gameboard } from "./gameboard.js";
 export function Player() {
   const gameboard = Gameboard();
   let turn = false;
+  const ai = false;
 
   const moves = [];
 
@@ -37,7 +38,7 @@ export function Player() {
     return "No move in 10 tries";
   }
 
-  return { turn, moves, getAttack, isNovelMove, gameboard };
+  return { turn, moves, getAttack, isNovelMove, gameboard, ai };
 }
 
 // module.exports = Player; uncomment for tests
