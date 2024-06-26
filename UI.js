@@ -11,7 +11,6 @@ export function UI(player1, player2) {
 
   document.querySelector(".ai-slider").addEventListener("click", () => {
     player2.ai ? (player2.ai = false) : (player2.ai = true);
-    console.log(player2.ai);
     document.querySelector(".ai-slider").classList.toggle("off");
     document.querySelector(".slider-circle").classList.toggle("off");
   });
@@ -110,7 +109,9 @@ export function UI(player1, player2) {
         ],
         playerWhoIsPlacing
       );
+      if (state == "game is live") startGame();
     }
+
     if (state == "game is live") {
       if (player2.ai) {
         vsComputer(event);
@@ -203,18 +204,34 @@ export function UI(player1, player2) {
   }
 
   function startGame() {
-    // remove placeships screen
-    dom.removeGameboard("player1");
-
-    // set player gameboards
+    const player1FleetArray = Coordinate().objectTo3DArray(
+      storage.getCoordinates("player1")
+    );
+    const player2FleetArray = Coordinate().objectTo3DArray(
+      storage.getCoordinates("player2")
+    );
+    // add player ships to the gameboard
+    for (let i = 0; i < player1FleetArray.length; i++) {
+      player1.gameboard.placeShip(...player1FleetArray[i]);
+      player2.gameboard.placeShip(...player2FleetArray[i]);
+    }
+    console.log(
+      player1.gameboard.shipCoordinates,
+      player2.gameboard.shipCoordinates
+    );
+    dom.initializeGame();
+    dom.renderPlayerGameboard(player1.gameboard.shipCoordinates, "player1");
+    dom.renderGameboard("player2");
   }
+
   function placeShipsButton(event, player) {
     if (event.target.id != "placeShipsButton") return;
     if (player == "player1") {
       playerWhoIsPlacing = "player2";
+      console.log(playerWhoIsPlacing, state);
       return;
     }
-    startGame();
+    state = "game is live";
     console.log(player);
   }
 }
