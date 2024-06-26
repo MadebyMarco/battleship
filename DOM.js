@@ -119,6 +119,11 @@ export function DOM() {
     document.querySelector(".announcements").textContent = message;
   }
 
+  function renderGameboard(player) {
+    const gameboard = document.querySelector("#" + player + ".gameboard");
+    gameboard.append(...createGameboard(gameboardSettings, player));
+  }
+
   function renderPlayerGameboard(playerShips, player) {
     // problem with this function is that it expect theres to be an empty gameboard div instead of ret
     const gameboard = document.querySelector("#" + player + ".gameboard");
@@ -150,6 +155,7 @@ export function DOM() {
     main.classList.remove("place-ships-screen");
     main.classList.add("game-is-live-screen");
     main.innerHTML = `
+      <h2 class="announcements"></h2>
       <div id="player1" class="section">
         <div class="ships" id="player1"></div>
         <div class="gameboard" id="player1"></div>
@@ -219,6 +225,7 @@ export function DOM() {
     renderControlsForPlacingShips,
     renderGameboardForPlacingShips,
     renderShips,
+    renderGameboard,
     removeGameboard,
     renderSelectedShip,
   };
