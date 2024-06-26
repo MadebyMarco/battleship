@@ -18,7 +18,7 @@ function Gameboard() {
   }
 
   function getShip(coordinate) {
-    const shipIndex = Coordinate.getShipIndexInFleet(
+    const shipIndex = Coordinate().getShipIndexInFleet(
       this.shipCoordinates,
       coordinate
     );
