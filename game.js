@@ -7,6 +7,8 @@
 // 4. create base case to end loop once all of one player's ships have been sunk in the game module
 export function Game() {
   function loop(player1, player2, coordinate) {
+    if (player1.turn == player2.turn)
+      console.error("Turn Error: Turns are equal to eachother");
     const round = {};
     if (player1.turn) {
       if (!player1.isNovelMove(coordinate)) return "please enter a new move";
