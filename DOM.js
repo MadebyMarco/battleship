@@ -185,25 +185,25 @@ export function DOM() {
       <div class="x controls">
         <h2>X</h2>
         <div class="buttons">
-        <button data-axis=0 data-translate-value=-1>⬅</button>
-        <button data-axis=0 data-translate-value=1>➡</button>
+        <button id="translate-button" data-axis=0 data-translate-value=-1>⬅</button>
+        <button id="translate-button" data-axis=0 data-translate-value=1>➡</button>
         </div>
       </div>
       <div class="y controls">
         <h2>Y</h2>
         <div class="buttons">
-        <button data-axis=1 data-translate-value=1>⬆</button>
-        <button data-axis=1 data-translate-value=-1>⬇</button>
+        <button id="translate-button" data-axis=1 data-translate-value=1>⬆</button>
+        <button id="translate-button" data-axis=1 data-translate-value=-1>⬇</button>
         </div>
       </div>
       <div class="rotate controls">
         <h2>Rotate</h2>
         <div class="buttons">
-        <button id="rotate">🗘</button>
+        <button id="rotate-button">🗘</button>
         </div>
       </div>
       <div class="place">
-        <button class="place-ships-button" id="placeShipsButton">Place Ships</button>
+        <button class="place-ships-button" id="place-ships-button">Place Ships</button>
       </div>`;
   }
 
