@@ -9,11 +9,7 @@ const storage = Storage();
 export function UI(player1, player2) {
   document.addEventListener("click", handleClick);
 
-  document.querySelector(".ai-slider").addEventListener("click", () => {
-    player2.ai ? (player2.ai = false) : (player2.ai = true);
-    document.querySelector(".ai-slider").classList.toggle("off");
-    document.querySelector(".slider-circle").classList.toggle("off");
-  });
+  // player2.ai ? (player2.ai = false) : (player2.ai = true);
 
   function startButton(event) {
     if (event.target.id != "startButton") return;
@@ -45,7 +41,7 @@ export function UI(player1, player2) {
   }
 
   function rotateShip(event, player) {
-    if (event.target != document.getElementById("rotate")) return;
+    if (event.target.id != "rotate-button") return;
     let size = storage.getSelectedShipSize();
     const playerShip = storage.getCoordinates(player)[size];
     const rotatedCoordinates = Coordinate().rotate(playerShip);
@@ -65,7 +61,7 @@ export function UI(player1, player2) {
 
   function translateShip(event, player) {
     // take size, get gameboard coordinates of that size, transform coordinates, set gameboard coordinates of that size, rerender selected ships new position,
-    if (event.target.dataset["axis"] == undefined) return;
+    if (event.target.id != "translate-button") return;
     const axis = +event.target.dataset.axis;
     const translateValue = +event.target.dataset["translateValue"];
     const size = storage.getSelectedShipSize();
@@ -225,7 +221,7 @@ export function UI(player1, player2) {
   }
 
   function placeShipsButton(event, player) {
-    if (event.target.id != "placeShipsButton") return;
+    if (event.target.id != "place-ships-button") return;
     if (player == "player1") {
       playerWhoIsPlacing = "player2";
       console.log(playerWhoIsPlacing, state);
