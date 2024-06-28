@@ -23,6 +23,16 @@ body {
   background-color: #3c89d9;
 }
 
+.main-menu-screen {
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  grid-template-rows: min-content repeat(2, minmax(75px, 200px));
+  grid-template-columns: 50%;
+}
+
 .header {
   text-align: center;
 }
@@ -58,7 +68,9 @@ body {
   background-color: var(--bright-green);
 }
 
-.startButton {
+.vs-player-button,
+.vs-computer-button {
+  grid-row: 2/3;
   text-align: center;
   justify-self: center;
   border: none;
@@ -66,10 +78,14 @@ body {
   font-size: 16px;
   font-weight: 700;
   font-kerning: auto;
-  height: 40px;
-  width: 80px;
+  height: max(60px, 30%);
+  padding: 0 20px 0 20px;
+  width: max(225px, 70%);
   background-color: black;
   outline: var(--bright-green) solid 2px;
+}
+.vs-computer-button {
+  grid-row: 3/4;
 }
 
 .game-is-live-screen {
