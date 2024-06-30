@@ -46,6 +46,8 @@ export function DOM() {
       elements[0].id.slice(-3),
       elements[1].id.slice(-3),
     ]);
+    // size code should not be here
+    // todo: instead of isSecond3Ship, use size parameter
     let shipSize = "size-" + elements.length;
     if (isSecondSize3Ship && elements.length == 3) shipSize = "size-3-2";
     for (let index = 0; index < elements.length; index++) {
@@ -54,8 +56,6 @@ export function DOM() {
       elements[index].classList.add(orientation);
       elements[index].classList.add("ship");
       elements[index].dataset.size = shipSize;
-      // merge place ship with getShipElements in order to save time goes from o(n)^2 to o(n);
-      // could save even more time if I just get first and last elements, use them as endpoints, build the ships in between those endpoints
     }
   }
 
