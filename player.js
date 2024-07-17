@@ -4,7 +4,8 @@
 // make an ai that can attack the other gameboard
 
 import { Gameboard } from "./gameboard.js";
-export function Player() {
+export function Player(name) {
+  // player should not track turn, the controller(ui) should control state
   const gameboard = Gameboard();
   let turn = false;
   const ai = false;
@@ -38,7 +39,7 @@ export function Player() {
     return "No move in 10 tries";
   }
 
-  return { turn, moves, getAttack, isNovelMove, gameboard, ai };
+  return { turn, moves, getAttack, isNovelMove, gameboard, ai, name };
 }
 
 // module.exports = Player; uncomment for tests
