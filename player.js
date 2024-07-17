@@ -7,7 +7,6 @@ import { Gameboard } from "./gameboard.js";
 export function Player(name) {
   // player should not track turn, the controller(ui) should control state
   const gameboard = Gameboard();
-  let turn = false;
   const ai = false;
 
   const moves = [];
@@ -39,7 +38,7 @@ export function Player(name) {
     return "No move in 10 tries";
   }
 
-  return { turn, moves, getAttack, isNovelMove, gameboard, ai, name };
+  return { moves, getAttack, isNovelMove, gameboard, ai, name };
 }
 
 // module.exports = Player; uncomment for tests
