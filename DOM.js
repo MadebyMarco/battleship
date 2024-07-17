@@ -92,7 +92,7 @@ export function DOM() {
     //apply placeSHip func to each set of coordinates
   }
 
-  function renderResultsOfAttack(
+  function addClassToCoordinates(
     // this shouldnt check for classList contains because it shouldnt exist, it should be freshly rendered
     coordinates = [],
     className,
@@ -101,8 +101,7 @@ export function DOM() {
     for (let index = 0; index < coordinates.length; index++) {
       const currentCoordinate = coordinates[index];
       const square = getShipElement(currentCoordinate, player);
-      if (!square.classList.contains(`${className}`))
-        square.classList.add(`${className}`);
+      square.classList.add(`${className}`);
     }
   }
 
@@ -178,6 +177,10 @@ export function DOM() {
     document.querySelector(`#${player}.gameboard`).remove();
   }
 
+  function clearGameboard(player) {
+    document.querySelector(`#${player}.gameboard`).innerHTML = "";
+  }
+
   function renderControlsForPlacingShips(renderTarget = "main") {
     const main = document.querySelector(renderTarget);
     main.classList.add("place-ships-screen");
@@ -214,11 +217,7 @@ export function DOM() {
   // firing sounds upon clicking a square, water sounds on miss, explosion sounds on hit
   return {
     createGameboard,
-    renderResultsOfAttack,
-    clearResults,
-    renderPlayerGameboard,
-    placeShip,
-    receiveAttack,
+    addClassToCoordinates,
     announce,
     renderModelShips,
     initializeGame,
@@ -227,6 +226,7 @@ export function DOM() {
     renderShips,
     renderGameboard,
     removeGameboard,
+    clearGameboard,
     renderSelectedShip,
   };
 }
