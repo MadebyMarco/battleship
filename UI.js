@@ -11,9 +11,16 @@ export function UI(player1, player2) {
 
   // player2.ai ? (player2.ai = false) : (player2.ai = true);
 
-  function startButton(event) {
-    if (event.target.id != "startButton") return;
-    event.target.remove();
+  function mainMenuButtons(event) {
+    if (
+      event.target.id != "vs-player-button" &&
+      event.target.id != "vs-computer-button"
+    )
+      return;
+    if (event.target.id == "vs-computer-button") player2.ai = true;
+    const main = document.querySelector("main");
+    main.classList.remove("main-menu-screen");
+    main.innerHTML = "";
     storage.setCoordinates("player1", Coordinate().getDefault());
     storage.setCoordinates("player2", Coordinate().getDefault());
     placeShipsScreen("player1");
@@ -87,7 +94,7 @@ export function UI(player1, player2) {
   let playerWhoIsPlacing = "player1";
 
   function handleClick(event) {
-    startButton(event);
+    mainMenuButtons(event);
     if (state == "place ships") {
       selectShip(event, playerWhoIsPlacing);
       translateShip(event, playerWhoIsPlacing);
@@ -117,7 +124,11 @@ export function UI(player1, player2) {
     }
   }
 
+  let player1turn = true;
   function vsPlayer(event) {
+    // should decide players based off player1 and player2, not by dom
+    // click -> validate -> check turn to assign playerReceiving -> run gameloop ->
+    //when clicking on invalid coordinate, turns get fucked up
     if (!eventValidity(event)) return;
     console.log("event valid");
 
@@ -125,17 +136,62 @@ export function UI(player1, player2) {
     if (!coordinate) return;
     console.log("coordinate valid");
 
-    const round = game.loop(player1, player2, coordinate);
+    let playerAttacking;
+    let playerReceiving;
+    if (player1turn) {
+      playerAttacking = player1;
+      playerReceiving = player2;
+      console.log("p1turn ", player1turn);
+    } else {
+      playerAttacking = player2;
+      playerReceiving = player1;
+      console.log("p1turn ", player1turn);
+    }
+    if (!playerAttacking.isNovelMove(coordinate)) {
+      console.log(playerAttacking);
+      dom.announce("Please enter a new move");
+      return;
+    }
+
+    player1turn ? (player1turn = false) : (player1turn = true);
+    const round = {};
+
+    playerAttacking.moves.push(coordinate);
+    round.result = playerReceiving.gameboard.receiveAttack(coordinate);
+    if (round.result === "hit")
+      round.sunkShip = playerReceiving.gameboard.getShip(coordinate).isSunk();
+    if (playerReceiving.gameboard.areAllShipsSunk()) {
+      round.winner = playerAttacking.name + " WINS";
+    }
+
     if (!roundValidity(round)) return;
     console.log("round valid");
 
-    if (round.winner) console.log(round.winner);
-    player1.turn = round.player1turn;
-    player2.turn = round.player2turn;
-
-    dom.receiveAttack(event.target, round.result);
+    dom.clearGameboard(playerReceiving.name);
+    dom.renderGameboard(playerReceiving.name);
+    dom.addClassToCoordinates(
+      playerReceiving.gameboard.hits,
+      "hit",
+      playerReceiving.name
+    );
+    dom.addClassToCoordinates(
+      playerReceiving.gameboard.misses,
+      "miss",
+      playerReceiving.name
+    );
+    dom.addClassToCoordinates(
+      playerReceiving.gameboard.getSunkShipsCoordinates(),
+      "sunk",
+      playerReceiving.name
+    );
+    dom.announce(playerAttacking.name + " " + round.result);
+    if (round.sunkShip) dom.announce(playerAttacking.name + " " + "sunk ship");
+    if (round.winner) {
+      dom.announce(round.winner);
+      state = "game over";
+    }
   }
-
+  // todo: turn vs computer to use turns
   function vsComputer(event) {
     if (!eventValidity(event)) return;
     console.log("event valid");
@@ -151,9 +207,9 @@ export function UI(player1, player2) {
       return;
     }
 
-    dom.renderResultsOfAttack(player2.gameboard.hits, "hit", "player2");
-    dom.renderResultsOfAttack(player2.gameboard.misses, "miss", "player2");
-    dom.renderResultsOfAttack(
+    dom.addClassToCoordinates(player2.gameboard.hits, "hit", "player2");
+    dom.addClassToCoordinates(player2.gameboard.misses, "miss", "player2");
+    dom.addClassToCoordinates(
       player2.gameboard.getSunkShipsCoordinates(),
       "sunk",
       "player2"
@@ -163,20 +219,22 @@ export function UI(player1, player2) {
     if (round.winner) dom.announce(round.winner);
 
     document.removeEventListener("click", handleClick);
-
-    setTimeout(() => {
-      dom.renderResultsOfAttack(player1.gameboard.hits, "hit", "player1");
-      dom.renderResultsOfAttack(player1.gameboard.misses, "miss", "player1");
-      dom.renderResultsOfAttack(
-        player1.gameboard.getSunkShipsCoordinates(),
-        "sunk",
-        "player1"
-      );
-      dom.announce("Player 2 " + round.player2result);
-      if (round.player2SunkShip) dom.announce("Player 2 sunk ship");
-      if (round.winner) dom.announce(round.winner);
-      document.addEventListener("click", handleClick);
-    }, 2000);
+    // hopefully be able to play a round just with this one func
+    if (player2.ai && !round.winner) {
+      setTimeout(() => {
+        dom.addClassToCoordinates(player1.gameboard.hits, "hit", "player1");
+        dom.addClassToCoordinates(player1.gameboard.misses, "miss", "player1");
+        dom.addClassToCoordinates(
+          player1.gameboard.getSunkShipsCoordinates(),
+          "sunk",
+          "player1"
+        );
+        dom.announce("Player 2 " + round.player2result);
+        if (round.player2SunkShip) dom.announce("Player 2 sunk ship");
+        if (round.winner) dom.announce(round.winner);
+        document.addEventListener("click", handleClick);
+      }, 2000);
+    }
   }
 
   function roundValidity(round) {
@@ -187,10 +245,10 @@ export function UI(player1, player2) {
   }
 
   function eventValidity(event) {
-    if (event.target.closest("#player1") && player1.turn) return false;
-    if (event.target.closest("#player2") && player2.turn) return false;
     if (!event.target.classList.contains("square")) return false;
-    return true;
+    if (event.target.id.slice(0, 7) == "player2" && player1turn) return true;
+    if (event.target.id.slice(0, 7) == "player1" && !player1turn) return true;
+    return false;
   }
 
   function getCoordinate(event) {
@@ -216,7 +274,8 @@ export function UI(player1, player2) {
       player2.gameboard.shipCoordinates
     );
     dom.initializeGame();
-    dom.renderPlayerGameboard(player1.gameboard.shipCoordinates, "player1");
+    dom.renderGameboard("player1");
+    dom.renderShips(player1.gameboard.shipCoordinates, "player1");
     dom.renderGameboard("player2");
   }
 
