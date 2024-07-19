@@ -181,6 +181,26 @@ export function DOM() {
     document.querySelector(`#${player}.gameboard`).innerHTML = "";
   }
 
+  function rerenderGameboardWithResults(playerReceiving) {
+    clearGameboard(playerReceiving.name);
+    renderGameboard(playerReceiving.name);
+    addClassToCoordinates(
+      playerReceiving.gameboard.hits,
+      "hit",
+      playerReceiving.name
+    );
+    addClassToCoordinates(
+      playerReceiving.gameboard.misses,
+      "miss",
+      playerReceiving.name
+    );
+    addClassToCoordinates(
+      playerReceiving.gameboard.getSunkShipsCoordinates(),
+      "sunk",
+      playerReceiving.name
+    );
+  }
+
   function renderControlsForPlacingShips(renderTarget = "main") {
     const main = document.querySelector(renderTarget);
     main.classList.add("place-ships-screen");
@@ -228,5 +248,6 @@ export function DOM() {
     removeGameboard,
     clearGameboard,
     renderSelectedShip,
+    rerenderGameboardWithResults,
   };
 }
