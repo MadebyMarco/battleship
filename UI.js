@@ -120,21 +120,20 @@ export function UI(player1, player2) {
         vsComputer(event);
         return;
       }
-      vsPlayer(event);
+      // run first round, show result of attack, pop up screen, click pop up screen button that says players have switched,
+      if (!eventValidity(event)) return;
+      console.log("event valid");
+      const coordinate = getCoordinate(event);
+      if (!coordinate) return;
+      console.log("coordinate valid");
+      vsPlayer(coordinate);
     }
   }
 
   let player1turn = true;
-  function vsPlayer(event) {
+  function vsPlayer(coordinate) {
     // should decide players based off player1 and player2, not by dom
     // click -> validate -> check turn to assign playerReceiving -> run gameloop ->
-    //when clicking on invalid coordinate, turns get fucked up
-    if (!eventValidity(event)) return;
-    console.log("event valid");
-
-    const coordinate = getCoordinate(event);
-    if (!coordinate) return;
-    console.log("coordinate valid");
 
     let playerAttacking;
     let playerReceiving;
@@ -166,33 +165,22 @@ export function UI(player1, player2) {
       round.winner = playerAttacking.name + " WINS";
     }
 
-    dom.renderShips(
-      playerAttacking.gameboard.shipCoordinates,
-      playerAttacking.name
-    );
-    dom.clearGameboard(playerReceiving.name);
-    dom.renderGameboard(playerReceiving.name);
-    dom.addClassToCoordinates(
-      playerReceiving.gameboard.hits,
-      "hit",
-      playerReceiving.name
-    );
-    dom.addClassToCoordinates(
-      playerReceiving.gameboard.misses,
-      "miss",
-      playerReceiving.name
-    );
-    dom.addClassToCoordinates(
-      playerReceiving.gameboard.getSunkShipsCoordinates(),
-      "sunk",
-      playerReceiving.name
-    );
+    dom.rerenderGameboardWithResults(playerReceiving);
     dom.announce(playerAttacking.name + " " + round.result);
     if (round.sunkShip) dom.announce(playerAttacking.name + " " + "sunk ship");
     if (round.winner) {
       dom.announce(round.winner);
       state = "game over";
     }
+    setTimeout(() => {
+      // now create a popup screen after vs player, make these functions run when that pop up screen's button is pressed
+      dom.rerenderGameboardWithResults(playerReceiving);
+      dom.renderShips(
+        playerReceiving.gameboard.shipCoordinates,
+        playerReceiving.name
+      );
+      dom.rerenderGameboardWithResults(playerAttacking);
+    }, 2000);
   }
   // todo: turn vs computer to use turns
   function vsComputer(event) {
