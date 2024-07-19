@@ -138,6 +138,7 @@ export function UI(player1, player2) {
 
     let playerAttacking;
     let playerReceiving;
+
     if (player1turn) {
       playerAttacking = player1;
       playerReceiving = player2;
@@ -147,6 +148,7 @@ export function UI(player1, player2) {
       playerReceiving = player1;
       console.log("p1turn ", player1turn);
     }
+
     if (!playerAttacking.isNovelMove(coordinate)) {
       console.log(playerAttacking);
       dom.announce("Please enter a new move");
@@ -164,9 +166,10 @@ export function UI(player1, player2) {
       round.winner = playerAttacking.name + " WINS";
     }
 
-    if (!roundValidity(round)) return;
-    console.log("round valid");
-
+    dom.renderShips(
+      playerAttacking.gameboard.shipCoordinates,
+      playerAttacking.name
+    );
     dom.clearGameboard(playerReceiving.name);
     dom.renderGameboard(playerReceiving.name);
     dom.addClassToCoordinates(
@@ -235,13 +238,6 @@ export function UI(player1, player2) {
         document.addEventListener("click", handleClick);
       }, 2000);
     }
-  }
-
-  function roundValidity(round) {
-    if (round.error === "Please enter a new move") {
-      return false;
-    }
-    return true;
   }
 
   function eventValidity(event) {
