@@ -43,7 +43,7 @@ export function UI(player1, player2) {
     let size = event.target.dataset.size;
     const selectedShip = storage.getCoordinates(player)[size];
     storage.setSelectedShipSize(size);
-    dom.renderSelectedShip(selectedShip, player);
+    dom.addClassToCoordinates(selectedShip, "selected", player);
     console.log("ship selected");
   }
 
@@ -106,10 +106,11 @@ export function UI(player1, player2) {
         storage.getCoordinates(playerWhoIsPlacing)
       );
       dom.renderShips(processedCoordinates, playerWhoIsPlacing);
-      dom.renderSelectedShip(
+      dom.addClassToCoordinates(
         storage.getCoordinates(playerWhoIsPlacing)[
           storage.getSelectedShipSize()
         ],
+        "selected",
         playerWhoIsPlacing
       );
       if (state == "game is live") startGame();
@@ -150,12 +151,14 @@ export function UI(player1, player2) {
     }
 
     player1turn ? (player1turn = false) : (player1turn = true);
-    const round = {};
-
     playerAttacking.moves.push(coordinate);
+
+    const round = {};
     round.result = playerReceiving.gameboard.receiveAttack(coordinate);
+
     if (round.result === "hit")
       round.sunkShip = playerReceiving.gameboard.getShip(coordinate).isSunk();
+
     if (playerReceiving.gameboard.areAllShipsSunk()) {
       round.winner = playerAttacking.name + " WINS";
     }
