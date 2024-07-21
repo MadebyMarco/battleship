@@ -69,12 +69,6 @@ export function DOM() {
     return shipElements;
   }
 
-  function renderSelectedShip(coordinates, player) {
-    const shipElements = getShipElements(coordinates, player);
-    for (let i = 0; i < shipElements.length; i++) {
-      shipElements[i].classList.add("selected");
-    }
-  }
   // render out ships
   function renderShips(shipCoordinates, player) {
     //
