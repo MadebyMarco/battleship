@@ -135,17 +135,12 @@ export function UI(player1, player2) {
     // should decide players based off player1 and player2, not by dom
     // click -> validate -> check turn to assign playerReceiving -> run gameloop ->
 
-    let playerAttacking;
-    let playerReceiving;
+    let playerAttacking = player1;
+    let playerReceiving = player2;
 
-    if (player1turn) {
-      playerAttacking = player1;
-      playerReceiving = player2;
-      console.log("p1turn ", player1turn);
-    } else {
+    if (!player1turn) {
       playerAttacking = player2;
       playerReceiving = player1;
-      console.log("p1turn ", player1turn);
     }
 
     if (!playerAttacking.isNovelMove(coordinate)) {
