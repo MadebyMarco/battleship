@@ -35,10 +35,6 @@ export function DOM() {
     element.classList.add("square");
   }
 
-  function receiveAttack(element, result) {
-    if (result == "hit") element.classList.add("hit");
-    if (result == "miss") element.classList.add("miss");
-  }
   // stern: back of boat
   // bow: front of boat
   function placeShip(elements, isSecondSize3Ship = false) {
@@ -105,15 +101,6 @@ export function DOM() {
     }
   }
 
-  function clearResults(className, player) {
-    // loops twice through arrays, combine into one
-    const elements = document.querySelectorAll(`#${player} ${className}`);
-    for (let index = 0; index < elements.length; index++) {
-      const currentElement = elements[index];
-      currentElement.classList.remove(`${className}`);
-    }
-  }
-
   function announce(message = "Player 1's turn") {
     document.querySelector(".announcements").textContent = message;
   }
@@ -121,13 +108,6 @@ export function DOM() {
   function renderGameboard(player) {
     const gameboard = document.querySelector("#" + player + ".gameboard");
     gameboard.append(...createGameboard(gameboardSettings, player));
-  }
-
-  function renderPlayerGameboard(playerShips, player) {
-    // problem with this function is that it expect theres to be an empty gameboard div instead of ret
-    const gameboard = document.querySelector("#" + player + ".gameboard");
-    gameboard.append(...createGameboard(gameboardSettings, player));
-    renderShips(playerShips, player);
   }
 
   function renderModelShips(player) {
@@ -236,7 +216,6 @@ export function DOM() {
   // add shake transition, using keyframes, if hit
   // firing sounds upon clicking a square, water sounds on miss, explosion sounds on hit
   return {
-    createGameboard,
     addClassToCoordinates,
     announce,
     renderModelShips,
@@ -247,7 +226,6 @@ export function DOM() {
     renderGameboard,
     removeGameboard,
     clearGameboard,
-    renderSelectedShip,
     rerenderGameboardWithResults,
   };
 }
