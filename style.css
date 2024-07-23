@@ -29,7 +29,7 @@ body {
   align-items: center;
   justify-content: center;
   justify-items: center;
-  grid-template-rows: min-content repeat(2, minmax(75px, 200px));
+  grid-template-rows: repeat(2, minmax(75px, 200px));
   grid-template-columns: 50%;
 }
 
@@ -70,7 +70,6 @@ body {
 
 .vs-player-button,
 .vs-computer-button {
-  grid-row: 2/3;
   text-align: center;
   justify-self: center;
   border: none;
@@ -84,15 +83,12 @@ body {
   background-color: black;
   outline: var(--bright-green) solid 2px;
 }
-.vs-computer-button {
-  grid-row: 3/4;
-}
 
 .game-is-live-screen {
   display: grid;
   justify-content: center;
-  grid-template-columns: min-content min-content;
-  grid-template-rows: min-content min-content;
+  grid-template-columns: min-content 50px min-content;
+  grid-template-rows: min-content;
   column-gap: 15px;
 }
 
