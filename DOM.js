@@ -128,7 +128,6 @@ export function DOM() {
     main.classList.remove("place-ships-screen");
     main.classList.add("game-is-live-screen");
     main.innerHTML = `
-      <h2 class="announcements"></h2>
       <div id="player1" class="section">
         <div class="ships" id="player1"></div>
         <div class="gameboard" id="player1"></div>
@@ -178,7 +177,7 @@ export function DOM() {
   function renderControlsForPlacingShips(renderTarget = "main") {
     const main = document.querySelector(renderTarget);
     main.classList.add("place-ships-screen");
-    main.innerHTML += `
+    main.innerHTML = `
       <div class="x controls">
         <h2>X</h2>
         <div class="buttons">
@@ -201,7 +200,8 @@ export function DOM() {
       </div>
       <div class="place">
         <button class="place-ships-button" id="place-ships-button">Place Ships</button>
-      </div>`;
+        </div>
+        `;
   }
 
   // todo
