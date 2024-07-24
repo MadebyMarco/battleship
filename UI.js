@@ -119,15 +119,20 @@ export function UI(player1, player2) {
     if (state == "game is live") {
       if (player2.ai) {
         vsComputer(event);
+        console.log("vs ai");
         return;
       }
       // run first round, show result of attack, pop up screen, click pop up screen button that says players have switched,
+      console.log("testing event...");
+      switchTurnButton(event);
       if (!eventValidity(event)) return;
       console.log("event valid");
       const coordinate = getCoordinate(event);
-      if (!coordinate) return;
+      console.log("testing coordinate...");
+      if (coordinate.length <= 0) return;
       console.log("coordinate valid");
       vsPlayer(coordinate);
+      console.log(event);
     }
   }
 
@@ -172,13 +177,28 @@ export function UI(player1, player2) {
     }
     setTimeout(() => {
       // now create a popup screen after vs player, make these functions run when that pop up screen's button is pressed
-      dom.rerenderGameboardWithResults(playerReceiving);
-      dom.renderShips(
-        playerReceiving.gameboard.shipCoordinates,
-        playerReceiving.name
-      );
-      dom.rerenderGameboardWithResults(playerAttacking);
+      dom.renderSwitchTurnScreen(playerReceiving.name);
     }, 2000);
+  }
+
+  function switchTurnButton(event) {
+    if (event.target.id != "switch-turn-button") return;
+    document.getElementById("switch-turn-screen").remove();
+
+    let playerAttacking = player1;
+    let playerReceiving = player2;
+
+    if (!player1turn) {
+      playerAttacking = player2;
+      playerReceiving = player1;
+    }
+
+    dom.rerenderGameboardWithResults(playerAttacking);
+    dom.rerenderGameboardWithResults(playerReceiving);
+    dom.renderShips(
+      playerAttacking.gameboard.shipCoordinates,
+      playerAttacking.name
+    );
   }
   // todo: turn vs computer to use turns
   function vsComputer(event) {
@@ -236,6 +256,7 @@ export function UI(player1, player2) {
   function getCoordinate(event) {
     const dataCoordinate = event.target.id.slice(-3);
     const coordinate = [+dataCoordinate[0], +dataCoordinate[2]];
+    if (Number.isNaN(coordinate[0]) || Number.isNaN(coordinate[1])) return [];
     return coordinate;
   }
 
