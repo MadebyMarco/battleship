@@ -208,7 +208,7 @@ export function DOM() {
     const main = document.querySelector("main");
     const switchTurnScreen = document.createElement("div");
     switchTurnScreen.id = "switch-turn-screen";
-    switchTurnScreen.classList.add = "switch-turn-popup";
+    switchTurnScreen.classList.add("switch-turn-screen");
     switchTurnScreen.innerHTML = `
       <h1>"Switch players then click or tap the button"</h1>
       <h2 id="player-turn-display"> It is ${playerTurn}'s turn</h2>
