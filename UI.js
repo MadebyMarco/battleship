@@ -9,8 +9,6 @@ const storage = Storage();
 export function UI(player1, player2) {
   document.addEventListener("click", handleClick);
 
-  // player2.ai ? (player2.ai = false) : (player2.ai = true);
-
   function mainMenuButtons(event) {
     if (
       event.target.id != "vs-player-button" &&
@@ -24,7 +22,6 @@ export function UI(player1, player2) {
     storage.setCoordinates("player1", Coordinate().getDefault());
     storage.setCoordinates("player2", Coordinate().getDefault());
     placeShipsScreen("player1");
-    state = "place ships";
   }
 
   function placeShipsScreen(player) {
@@ -95,12 +92,22 @@ export function UI(player1, player2) {
 
   function handleClick(event) {
     mainMenuButtons(event);
+    if (
+      event.target.id == "vs-player-button" ||
+      event.target.id == "vs-computer-button"
+    )
+      state = "place ships";
     if (state == "place ships") {
       selectShip(event, playerWhoIsPlacing);
       translateShip(event, playerWhoIsPlacing);
       rotateShip(event, playerWhoIsPlacing);
       dom.removeGameboard(playerWhoIsPlacing);
       placeShipsButton(event, playerWhoIsPlacing);
+      if (playerWhoIsPlacing === "None") {
+        state = "game is live";
+        startGame();
+        return;
+      }
       dom.renderGameboardForPlacingShips("main", playerWhoIsPlacing);
       const processedCoordinates = Coordinate().objectTo3DArray(
         storage.getCoordinates(playerWhoIsPlacing)
@@ -113,7 +120,6 @@ export function UI(player1, player2) {
         "selected",
         playerWhoIsPlacing
       );
-      if (state == "game is live") startGame();
     }
 
     if (state == "game is live") {
@@ -289,7 +295,7 @@ export function UI(player1, player2) {
       console.log(playerWhoIsPlacing, state);
       return;
     }
-    state = "game is live";
-    console.log(player);
+    playerWhoIsPlacing = "None";
+    console.log(playerWhoIsPlacing);
   }
 }
