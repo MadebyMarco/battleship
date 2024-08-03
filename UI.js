@@ -124,7 +124,13 @@ export function UI(player1, player2) {
 
     if (state == "game is live") {
       if (player2.ai) {
-        vsComputer(event);
+        if (!eventValidity(event)) return;
+        console.log("event valid");
+        const coordinate = getCoordinate(event);
+        console.log("testing coordinate...");
+        if (coordinate.length <= 0) return;
+        console.log("coordinate valid");
+        vsComputer(coordinate);
         console.log("vs ai");
         return;
       }
@@ -207,46 +213,53 @@ export function UI(player1, player2) {
     );
   }
   // todo: turn vs computer to use turns
-  function vsComputer(event) {
-    if (!eventValidity(event)) return;
-    console.log("event valid");
+  function vsComputer(coordinate, aiTurn = false) {
+    // const round = game.loopAgainstComputer(player1, player2, coordinate);
+    console.log(coordinate);
+    let playerAttacking = player1;
+    let playerReceiving = player2;
 
-    const coordinate = Coordinate().toArray(event.target.id.slice(-3));
-    if (!coordinate) return;
-    console.log("coordinate valid");
+    if (!player1turn) {
+      playerAttacking = player2;
+      playerReceiving = player1;
+    }
+    console.log(playerAttacking, playerReceiving);
 
-    const round = game.loopAgainstComputer(player1, player2, coordinate);
-
-    if (round.error) {
-      dom.announce(round.error);
+    if (!playerAttacking.isNovelMove(coordinate)) {
+      console.log(playerAttacking);
+      dom.announce("Please enter a new move");
       return;
     }
 
-    dom.addClassToCoordinates(player2.gameboard.hits, "hit", "player2");
-    dom.addClassToCoordinates(player2.gameboard.misses, "miss", "player2");
-    dom.addClassToCoordinates(
-      player2.gameboard.getSunkShipsCoordinates(),
-      "sunk",
-      "player2"
-    );
-    dom.announce("Player 1 " + round.player1result);
-    if (round.player1SunkShip) dom.announce("Player 1 sunk ship");
-    if (round.winner) dom.announce(round.winner);
+    player1turn ? (player1turn = false) : (player1turn = true);
+    playerAttacking.moves.push(coordinate);
+
+    const round = {};
+    round.result = playerReceiving.gameboard.receiveAttack(coordinate);
+
+    if (round.result === "hit")
+      round.sunkShip = playerReceiving.gameboard.getShip(coordinate).isSunk();
+
+    if (playerReceiving.gameboard.areAllShipsSunk()) {
+      round.winner = playerAttacking.name + " WINS";
+    }
+
+    dom.rerenderGameboardWithResults(playerReceiving);
+    dom.renderShips(player1.gameboard.shipCoordinates, "player1");
+    dom.announce(playerAttacking.name + " " + round.result);
+    if (round.sunkShip) dom.announce(playerAttacking.name + " " + "sunk ship");
+    if (round.winner) {
+      dom.announce(round.winner);
+      state = "game over";
+    }
 
     document.removeEventListener("click", handleClick);
     // hopefully be able to play a round just with this one func
-    if (player2.ai && !round.winner) {
+    if (!aiTurn && !round.winner) {
       setTimeout(() => {
-        dom.addClassToCoordinates(player1.gameboard.hits, "hit", "player1");
-        dom.addClassToCoordinates(player1.gameboard.misses, "miss", "player1");
-        dom.addClassToCoordinates(
-          player1.gameboard.getSunkShipsCoordinates(),
-          "sunk",
-          "player1"
-        );
-        dom.announce("Player 2 " + round.player2result);
-        if (round.player2SunkShip) dom.announce("Player 2 sunk ship");
-        if (round.winner) dom.announce(round.winner);
+        const coordinate = player2.getAttack();
+        console.log("player2attack", coordinate);
+        vsComputer(coordinate, true);
         document.addEventListener("click", handleClick);
       }, 2000);
     }
