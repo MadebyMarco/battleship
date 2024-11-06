@@ -1,13 +1,35 @@
 import { DOM } from "./DOM.js";
 import { Coordinate } from "./coordinate.js";
-import { Game } from "./game.js";
 import { Storage } from "./storage.js";
 const dom = DOM();
-const game = Game();
 const storage = Storage();
 
 export function UI(player1, player2) {
   document.addEventListener("click", handleClick);
+  let previousHover;
+  let dragOverCoordinate;
+  document.addEventListener("dragover", (event) => {
+    if (!event.target.classList.contains("square")) return;
+    if (previousHover == event.target) return;
+    previousHover = event.target;
+    dragOverCoordinate = getCoordinate(event);
+  });
+  document.addEventListener("dragend", (event) => {
+    if (!event.target.classList.contains("ship")) return;
+    selectShip(event, playerWhoIsPlacing);
+    translateShip(event, playerWhoIsPlacing);
+    dom.removeGameboard(playerWhoIsPlacing);
+    dom.renderGameboardForPlacingShips("main", playerWhoIsPlacing);
+    const processedCoordinates = Coordinate().objectTo3DArray(
+      storage.getCoordinates(playerWhoIsPlacing)
+    );
+    dom.renderShips(processedCoordinates, playerWhoIsPlacing);
+    dom.addClassToCoordinates(
+      storage.getCoordinates(playerWhoIsPlacing)[storage.getSelectedShipSize()],
+      "selected",
+      playerWhoIsPlacing
+    );
+  });
 
   function mainMenuButtons(event) {
     if (
@@ -103,11 +125,13 @@ export function UI(player1, player2) {
       rotateShip(event, playerWhoIsPlacing);
       dom.removeGameboard(playerWhoIsPlacing);
       placeShipsButton(event, playerWhoIsPlacing);
+
       if (playerWhoIsPlacing === "None") {
         state = "game is live";
         startGame();
         return;
       }
+
       dom.renderGameboardForPlacingShips("main", playerWhoIsPlacing);
       const processedCoordinates = Coordinate().objectTo3DArray(
         storage.getCoordinates(playerWhoIsPlacing)

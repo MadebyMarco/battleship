@@ -52,6 +52,7 @@ export function DOM() {
       elements[index].classList.add(orientation);
       elements[index].classList.add("ship");
       elements[index].dataset.size = shipSize;
+      elements[index].draggable = "true";
     }
   }
 
@@ -235,5 +236,6 @@ export function DOM() {
     clearGameboard,
     rerenderGameboardWithResults,
     renderSwitchTurnScreen,
+    getShipElements,
   };
 }
